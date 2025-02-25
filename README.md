@@ -8,6 +8,8 @@ Open the project within IntellIJ IDEA for the best experience, the stonecutter s
 
 Once you've got the project **fully imported** you can use the "Set active project to xxxx" tasks to switch between fabric, neoforge and other Minecraft versions.
 
+When you are finished with your changes, **please run the `"Reset Active Project"` and `chiseledBuild` tasks before making a commit!**
+
 ## Credits
 
 Thank you to Jack (jacks-underscore-username) and Bluuga (Hurricane) for working on this project with me!
