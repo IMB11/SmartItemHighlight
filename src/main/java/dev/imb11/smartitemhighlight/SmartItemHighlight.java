@@ -1,7 +1,9 @@
 package dev.imb11.smartitemhighlight;
 
 import dev.imb11.smartitemhighlight.api.SIHEvent;
+import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
 import dev.imb11.smartitemhighlight.api.events.ItemHighlightEvents;
+import dev.imb11.smartitemhighlight.conditions.EnchantmentCondition;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
@@ -18,6 +20,8 @@ public class SmartItemHighlight {
 
     public static void initialize() {
         ModCommands.initialize();
+
+        HighlightCondition.TYPES.put(EnchantmentCondition.SERIALIZATION_ID, EnchantmentCondition.CODEC);
 
         ItemHighlightEvents.SHOULD_RENDER.register(((drawContext, livingEntity, world, stack, x, y, seed, z) -> highlightedItems.contains(stack.getItem().getDescriptionId()) ? SIHEvent.CallbackResult.SUCCESS : SIHEvent.CallbackResult.CONTINUE));
         ItemHighlightEvents.RENDER_HIGHLIGHT.register(((drawContext, livingEntity, world, stack, x, y, seed, z) -> {
