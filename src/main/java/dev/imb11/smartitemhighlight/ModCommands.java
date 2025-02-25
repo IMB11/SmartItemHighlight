@@ -18,11 +18,11 @@ public class ModCommands {
                         context.getSource().sendFailure(Component.literal("You must be holding an item to mark it for highlighting"));
                         return 0;
                     }
-                    if (Main.highlightedItems.contains(stack.getItem().getDescriptionId())) {
+                    if (SmartItemHighlight.highlightedItems.contains(stack.getItem().getDescriptionId())) {
                         context.getSource().sendFailure(Component.literal("This item is already being highlighted"));
                         return 0;
                     }
-                    Main.highlightedItems.add(stack.getItem().getDescriptionId());
+                    SmartItemHighlight.highlightedItems.add(stack.getItem().getDescriptionId());
                     context.getSource().sendSuccess(() -> Component.literal("Highlight added"), false);
                     return 1;
                 }));
@@ -35,11 +35,11 @@ public class ModCommands {
                         context.getSource().sendFailure(Component.literal("You must be holding an item to mark it for no highlighting"));
                         return 0;
                     }
-                    if (!Main.highlightedItems.contains(stack.getItem().getDescriptionId())) {
+                    if (!SmartItemHighlight.highlightedItems.contains(stack.getItem().getDescriptionId())) {
                         context.getSource().sendFailure(Component.literal("This item isn't being highlighted"));
                         return 0;
                     }
-                    Main.highlightedItems.remove(stack.getItem().getDescriptionId());
+                    SmartItemHighlight.highlightedItems.remove(stack.getItem().getDescriptionId());
                     context.getSource().sendSuccess(() -> Component.literal("Highlight removed"), false);
                     return 1;
                 }));

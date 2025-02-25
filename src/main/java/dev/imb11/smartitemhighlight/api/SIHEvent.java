@@ -1,14 +1,14 @@
-package dev.imb11.smartitemhighlight;
+package dev.imb11.smartitemhighlight.api;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-public class Event<T> {
+public class SIHEvent<T> {
     private final List<T> listeners = new ArrayList<>();
     public final T invoker;
 
-    public Event(Function<List<T>, T> invokerFactory) {
+    public SIHEvent(Function<List<T>, T> invokerFactory) {
         this.invoker = invokerFactory.apply(listeners);
     }
 
@@ -16,7 +16,7 @@ public class Event<T> {
         listeners.add(listener);
     }
 
-    public enum CALLBACK_RESULT {
+    public enum CallbackResult {
         CONTINUE,
         SUCCESS,
         FAIL

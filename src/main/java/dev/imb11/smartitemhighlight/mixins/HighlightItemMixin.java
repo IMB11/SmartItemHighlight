@@ -1,7 +1,7 @@
 package dev.imb11.smartitemhighlight.mixins;
 
-import dev.imb11.smartitemhighlight.Api;
-import dev.imb11.smartitemhighlight.Event;
+import dev.imb11.smartitemhighlight.api.SIHEvent;
+import dev.imb11.smartitemhighlight.api.events.ItemHighlightEvents;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -19,7 +19,7 @@ public class HighlightItemMixin {
     )
     private void renderItem(LivingEntity entity, Level level, ItemStack stack, int x, int y, int seed, int guiOffset, CallbackInfo ci){
         GuiGraphics drawContext = ((GuiGraphics) (Object) this);
-        if (Api.SHOULD_HIGHLIGHT.invoker.test(drawContext, entity, level, stack, x, y, seed, guiOffset).equals(Event.CALLBACK_RESULT.SUCCESS))
-            Api.HIGHLIGHT_ITEM.invoker.apply(drawContext, entity, level, stack, x, y, seed, guiOffset);
+        if (ItemHighlightEvents.SHOULD_RENDER.invoker.test(drawContext, entity, level, stack, x, y, seed, guiOffset).equals(SIHEvent.CallbackResult.SUCCESS))
+            ItemHighlightEvents.RENDER_HIGHLIGHT.invoker.apply(drawContext, entity, level, stack, x, y, seed, guiOffset);
     }
 }
