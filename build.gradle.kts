@@ -50,7 +50,7 @@ modstitch {
     }
 
     metadata {
-        modId = "smart-item-highlight"
+        modId = "smartitemhighlight"
         modName = "Smart Item Highlight"
         modVersion = "${property("mod.version") as String}+${mcVersion}+${loader}"
         modGroup = "dev.imb11"
