@@ -10,8 +10,10 @@ import dev.imb11.smartitemhighlight.api.condition.ComparisonType;
 import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -72,9 +74,13 @@ public class EnchantmentCondition implements HighlightCondition {
     @Override
     public boolean shouldHighlightStack(ClientLevel level, ItemStack stack) {
         if (stack.isEnchanted()) {
+            //? if 1.21.4 {
             final Registry<Enchantment> enchantmentRegistry = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
             Optional<Enchantment> enchantmentOptional = enchantmentRegistry.getOptional(enchantment);
-
+            //?} else {
+            /*final HolderLookup.RegistryLookup<Enchantment> enchantmentRegistry = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
+            Optional<Enchantment> enchantmentOptional = enchantmentRegistry.get(ResourceKey.create(Registries.ENCHANTMENT, enchantment)).map(Holder.Reference::value);
+            *///?}
             if (enchantmentOptional.isEmpty()) {
                 this.enabled = false;
                 SmartItemHighlight.LOGGER.error("Error! {} does not reference a valid enchantment. Disabling until the next config reload.", this);

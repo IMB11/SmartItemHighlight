@@ -5,7 +5,6 @@ import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
 import dev.imb11.smartitemhighlight.api.events.ItemHighlightEvents;
 import dev.imb11.smartitemhighlight.conditions.EnchantmentCondition;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
