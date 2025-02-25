@@ -22,7 +22,7 @@ public interface HighlightCondition {
 
     /**
      * Whether the condition is enabled or not.
-     * @return If false, {@link HighlightCondition#shouldHighlightStack(ItemStack)} will be skipped and assumed to be false.
+     * @return If false, {@link HighlightCondition#shouldHighlightStack(ClientLevel, ItemStack)} will be skipped and assumed to be false.
      */
     boolean isEnabled();
 }
