@@ -1,5 +1,9 @@
 # Smart Item Highlight
 
+Smartly highlight items in your inventory based on their properties such as enchantments, various components or even if you've recently picked it up.
+
+WIP.
+
 ## Contributing
 
 _Whilst this project is All Rights Reserved, you may fork to add translations or new features. Any merged pull requests will immediately fall under the ownership of IMB11 (Calum H.)_
