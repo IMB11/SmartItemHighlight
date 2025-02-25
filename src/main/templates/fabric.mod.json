@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
+  "authors": [
+    "IMB11",
+    "Jack (jacks-underscore-username)",
+    "Bluuga (Hurricane)"
+  ],
+  "contact": {
+    "website": "https://imb11.dev/",
+    "repo": "https://github.com/IMB11/SmartItemHighlight"
+  },
+  "license": "${mod_license}",
+  "icon": "assets/${mod_id}/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.imb11.smartitemhighlight.loaders.fabric.SIHFabric"
+    ],
+    "modmenu": [
+      "dev.imb11.smartitemhighlight.loaders.fabric.ModMenuCompat"
+    ]
+  },
+  "mixins": [
+    "smartitemhighlight.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${target_fabricloader}",
+    "fabric": "*",
+    "mru": "~${target_mru}",
+    "minecraft": "${target_minecraft}"
+  }
+}
