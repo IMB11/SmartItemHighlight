@@ -21,7 +21,7 @@ public abstract class HighlightCondition {
         );
     }
 
-    protected static final Codec<HighlightCondition> CODEC = ResourceLocation.CODEC.dispatch("type", HighlightCondition::getSerializationId, TYPES::get);
+    public static final Codec<HighlightCondition> CODEC = ResourceLocation.CODEC.dispatch("type", HighlightCondition::getSerializationId, TYPES::get);
 
     protected final Optional<ResourceLocation> overlayTexture;
     protected final ResourceLocation renderFunction;

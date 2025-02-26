@@ -4,6 +4,7 @@ import dev.imb11.mru.LoaderUtils;
 import dev.imb11.smartitemhighlight.api.SIHEvent;
 import dev.imb11.smartitemhighlight.api.condition.RenderFunction;
 import dev.imb11.smartitemhighlight.api.events.ItemHighlightEvents;
+import dev.imb11.smartitemhighlight.config.HighlightConditionManager;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import org.slf4j.Logger;
@@ -34,6 +35,8 @@ public class SmartItemHighlight {
             drawContext.fill(RenderType.gui(), x, y, x + 16, y + 16, Integer.MAX_VALUE);
             Utils.renderTexture(drawContext, "textures/star.png", x, y, 16, 16);
         });
+
+        HighlightConditionManager.load();
     }
 
 
