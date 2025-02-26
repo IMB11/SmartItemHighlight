@@ -70,6 +70,7 @@ public class HighlightConditionManager {
                 conditionDataResult.ifSuccess(condition -> {
                     if (element.getAsJsonObject().has("renderOptions")) {
                         condition.setRenderOptions(element.getAsJsonObject().getAsJsonObject("renderOptions"));
+                        condition.decodeRenderOptions();
                     }
 
                     LOADED_CONDITIONS.add(condition);

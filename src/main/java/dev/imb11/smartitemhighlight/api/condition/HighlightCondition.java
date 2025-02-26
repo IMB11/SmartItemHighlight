@@ -41,6 +41,8 @@ public abstract class HighlightCondition {
         this.renderOptions = Optional.of(renderOptions);
     }
 
+    public void decodeRenderOptions() { };
+
     public abstract ResourceLocation getSerializationId();
 
     public abstract boolean shouldHighlightStack(ClientLevel level, ItemStack stack);
