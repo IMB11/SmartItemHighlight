@@ -1,5 +1,6 @@
 package dev.imb11.smartitemhighlight;
 
+import dev.imb11.mru.LoaderUtils;
 import dev.imb11.smartitemhighlight.api.SIHEvent;
 import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
 import dev.imb11.smartitemhighlight.api.events.ItemHighlightEvents;
@@ -8,12 +9,13 @@ import net.minecraft.client.renderer.RenderType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.file.Path;
 import java.util.HashSet;
 
 public class SmartItemHighlight {
     public static final String MOD_ID = "smartitemhighlight";
-
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static final Path CONFIG_FOLDER = LoaderUtils.getConfigFolder(MOD_ID);
 
     public static HashSet<String> highlightedItems = new HashSet<>();
 

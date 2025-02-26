@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,4 +27,24 @@ public interface HighlightCondition {
      * @return If false, {@link HighlightCondition#shouldHighlightStack(ClientLevel, ItemStack)} will be skipped and assumed to be false.
      */
     boolean isEnabled();
+
+    /**
+     * The texture used to render the highlight.
+     */
+    default @Nullable ResourceLocation getTexture() {
+        return ResourceLocation.fromNamespaceAndPath("smartitemhighlight", "textures/star.png");
+    }
+
+    default RenderType getRenderType() {
+        return RenderType.TEXTURED;
+    }
+
+    enum RenderType {
+        /**
+         * A texture rendered on t
+         */
+        TEXTURED,
+        TEXTURE_TINTABLE,
+        CUSTOM
+    }
 }
