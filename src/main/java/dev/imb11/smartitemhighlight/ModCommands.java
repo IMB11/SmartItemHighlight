@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class ModCommands {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
+        // Leaving all this for now not because it's currently useful, but because we might want to add commands later and there's no reason to have to resetup this stuff.
         dispatcher.register(Commands.literal("highlight")
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();

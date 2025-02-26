@@ -6,17 +6,16 @@ import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
 import dev.imb11.smartitemhighlight.api.render.RenderFunction;
 import dev.imb11.smartitemhighlight.api.condition.builtin.EnchantmentCondition;
 import dev.imb11.smartitemhighlight.api.events.ItemHighlightEvents;
+import dev.imb11.smartitemhighlight.api.render.builtin.DefaultRenderFunction;
 import dev.imb11.smartitemhighlight.api.render.builtin.StarRenderFunction;
 import dev.imb11.smartitemhighlight.config.HighlightConditionManager;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.RenderType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 import java.util.HashSet;
-import java.util.HashMap;
-import java.util.Map;
+
 import net.minecraft.resources.ResourceLocation;
 
 public class SmartItemHighlight {
@@ -46,6 +45,7 @@ public class SmartItemHighlight {
 
         HighlightConditionManager.register(EnchantmentCondition.SERIALIZATION_ID, EnchantmentCondition.CODEC);
 
+        RenderFunction.RENDER_FUNCTION_REGISTRY.put(DefaultRenderFunction.ID, new DefaultRenderFunction());
         RenderFunction.RENDER_FUNCTION_REGISTRY.put(StarRenderFunction.ID, new StarRenderFunction());
 
         HighlightConditionManager.load();

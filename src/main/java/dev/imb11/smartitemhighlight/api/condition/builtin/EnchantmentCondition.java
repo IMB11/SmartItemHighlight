@@ -1,17 +1,26 @@
 package dev.imb11.smartitemhighlight.api.condition.builtin;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.imb11.smartitemhighlight.SmartItemHighlight;
 import dev.imb11.smartitemhighlight.api.condition.ComparisonType;
 import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.TagTypes;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
 
 import java.util.Optional;
 
@@ -22,7 +31,7 @@ public class EnchantmentCondition extends HighlightCondition {
                     .and(ResourceLocation.CODEC.fieldOf("enchantment").forGetter(EnchantmentCondition::getEnchantment))
                     .and(Codec.INT.optionalFieldOf("level").forGetter(EnchantmentCondition::getLevel))
                     .and(ComparisonType.CODEC.optionalFieldOf("comparisonType").forGetter(EnchantmentCondition::getComparisonType))
-            .apply(instance, EnchantmentCondition::new));
+                    .apply(instance, EnchantmentCondition::new));
 
     public EnchantmentCondition(boolean enabled, Optional<ResourceLocation> overlay, ResourceLocation renderFunction, ResourceLocation enchantment, Optional<Integer> level, Optional<ComparisonType> comparisonType) {
         super(enabled, overlay, renderFunction);
@@ -67,8 +76,12 @@ public class EnchantmentCondition extends HighlightCondition {
                 SmartItemHighlight.LOGGER.error("Error! {} does not reference a valid enchantment. Disabling until the next config reload.", this);
                 return false;
             } else {
+                //? if 1.21.4 {
                 int itemLevel = stack.getEnchantments().getLevel(enchantmentRegistry.wrapAsHolder(enchantmentOptional.get()));
-
+                //?} else {
+                /*// This is a mess and can probably be improved
+                int itemLevel = stack.getEnchantments().getLevel(stack.getEnchantments().entrySet().stream().filter(h -> h.getKey().value().equals(enchantmentOptional.get())).findFirst().orElseThrow().getKey());
+                *///?}
                 if (this.level.isEmpty()) {
                     // If level is not present, we only check for the presence of the enchantment.
                     return this.comparisonType.filter(type -> type == ComparisonType.EQUAL).isPresent();
