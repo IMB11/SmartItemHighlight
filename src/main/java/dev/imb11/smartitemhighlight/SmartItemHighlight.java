@@ -4,6 +4,7 @@ import dev.imb11.mru.LoaderUtils;
 import dev.imb11.smartitemhighlight.api.SIHEvent;
 import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
 import dev.imb11.smartitemhighlight.api.condition.RenderFunction;
+import dev.imb11.smartitemhighlight.api.condition.builtin.EnchantmentCondition;
 import dev.imb11.smartitemhighlight.api.events.ItemHighlightEvents;
 import dev.imb11.smartitemhighlight.config.HighlightConditionManager;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -49,6 +50,7 @@ public class SmartItemHighlight {
             Utils.renderTexture(drawContext, "textures/star.png", x, y, 16, 16);
         });
 
+        HighlightConditionManager.register(EnchantmentCondition.SERIALIZATION_ID, EnchantmentCondition.CODEC);
         HighlightConditionManager.load();
     }
 

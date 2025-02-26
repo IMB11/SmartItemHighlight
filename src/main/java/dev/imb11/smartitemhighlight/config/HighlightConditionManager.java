@@ -1,11 +1,9 @@
 package dev.imb11.smartitemhighlight.config;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
+import com.google.gson.*;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
+import com.mojang.serialization.MapCodec;
 import dev.imb11.smartitemhighlight.SmartItemHighlight;
 import dev.imb11.smartitemhighlight.api.condition.ComparisonType;
 import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
@@ -66,13 +64,15 @@ public class HighlightConditionManager {
         try {
             LOADED_CONDITIONS.clear();
             String jsonData = Files.readString(CONFIG_PATH, StandardCharsets.UTF_16);
-            JsonArray elements = GSON.fromJson(jsonData, JsonArray.class);
-            for (JsonElement element : elements) {
-                DataResult<HighlightCondition> dataResult = HighlightCondition.CODEC.parse(JsonOps.INSTANCE, element);
-                dataResult.ifSuccess(LOADED_CONDITIONS::add);
-            }
+            var listCodec = HighlightCondition.CODEC.listOf();
+            DataResult<List<HighlightCondition>> result = listCodec.parse(JsonOps.INSTANCE, GSON.fromJson(jsonData, JsonElement.class));
+            LOADED_CONDITIONS.addAll(result.getOrThrow());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void register(ResourceLocation serializationId, MapCodec<EnchantmentCondition> codec) {
+        HighlightCondition.TYPES.put(serializationId, codec);
     }
 }

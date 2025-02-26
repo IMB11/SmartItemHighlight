@@ -7,11 +7,13 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.*;
 
 public abstract class HighlightCondition {
-    protected static final Map<ResourceLocation, MapCodec<? extends HighlightCondition>> TYPES = new HashMap<>();
+    @ApiStatus.Internal
+    public static final Map<ResourceLocation, MapCodec<? extends HighlightCondition>> TYPES = new HashMap<>();
 
     public static <T extends HighlightCondition> Products.P3<RecordCodecBuilder.Mu<T>, Boolean, Optional<ResourceLocation>, ResourceLocation> extendCodec(RecordCodecBuilder.Instance<T> instance) {
         return instance.group(

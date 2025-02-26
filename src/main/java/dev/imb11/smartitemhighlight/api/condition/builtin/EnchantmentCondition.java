@@ -26,10 +26,6 @@ public class EnchantmentCondition extends HighlightCondition {
                     .and(ComparisonType.CODEC.optionalFieldOf("comparisonType").forGetter(EnchantmentCondition::getComparisonType))
             .apply(instance, EnchantmentCondition::new));
 
-    static {
-        HighlightCondition.TYPES.put(EnchantmentCondition.SERIALIZATION_ID, EnchantmentCondition.CODEC);
-    }
-
     public EnchantmentCondition(boolean enabled, Optional<ResourceLocation> overlay, ResourceLocation renderFunction, ResourceLocation enchantment, Optional<Integer> level, Optional<ComparisonType> comparisonType) {
         super(enabled, overlay, renderFunction);
         this.enchantment = enchantment;
@@ -73,7 +69,7 @@ public class EnchantmentCondition extends HighlightCondition {
                 SmartItemHighlight.LOGGER.error("Error! {} does not reference a valid enchantment. Disabling until the next config reload.", this);
                 return false;
             } else {
-                int itemLevel = stack.getEnchantments().getLevel(Holder.direct(enchantmentOptional.get()));
+                int itemLevel = stack.getEnchantments().getLevel(enchantmentRegistry.wrapAsHolder(enchantmentOptional.get()));
 
                 if (this.level.isEmpty()) {
                     // If level is not present, we only check for the presence of the enchantment.
