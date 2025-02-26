@@ -64,9 +64,17 @@ public class HighlightConditionManager {
         try {
             LOADED_CONDITIONS.clear();
             String jsonData = Files.readString(CONFIG_PATH, StandardCharsets.UTF_16);
-            var listCodec = HighlightCondition.CODEC.listOf();
-            DataResult<List<HighlightCondition>> result = listCodec.parse(JsonOps.INSTANCE, GSON.fromJson(jsonData, JsonElement.class));
-            LOADED_CONDITIONS.addAll(result.getOrThrow());
+            JsonArray array = GSON.fromJson(jsonData, JsonArray.class);
+            for (JsonElement element : array) {
+                DataResult<HighlightCondition> conditionDataResult = HighlightCondition.CODEC.parse(JsonOps.INSTANCE, element);
+                conditionDataResult.ifSuccess(condition -> {
+                    if (element.getAsJsonObject().has("renderOptions")) {
+                        condition.setRenderOptions(element.getAsJsonObject().getAsJsonObject("renderOptions"));
+                    }
+
+                    LOADED_CONDITIONS.add(condition);
+                }).ifError(err -> SmartItemHighlight.LOGGER.info("Failed to decode HighlightCondition: {}", err.message()));
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

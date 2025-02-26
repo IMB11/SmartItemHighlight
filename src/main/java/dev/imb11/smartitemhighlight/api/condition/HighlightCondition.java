@@ -1,5 +1,6 @@
 package dev.imb11.smartitemhighlight.api.condition;
 
+import com.google.gson.JsonObject;
 import com.mojang.datafixers.Products;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -27,12 +28,17 @@ public abstract class HighlightCondition {
 
     protected final Optional<ResourceLocation> overlayTexture;
     protected final ResourceLocation renderFunction;
+    protected Optional<JsonObject> renderOptions = Optional.empty();
     protected boolean enabled;
 
     public HighlightCondition(boolean enabled, Optional<ResourceLocation> overlay, ResourceLocation renderFunction) {
         this.enabled = enabled;
         this.overlayTexture = overlay;
         this.renderFunction = renderFunction;
+    }
+
+    public void setRenderOptions(JsonObject renderOptions) {
+        this.renderOptions = Optional.of(renderOptions);
     }
 
     public abstract ResourceLocation getSerializationId();

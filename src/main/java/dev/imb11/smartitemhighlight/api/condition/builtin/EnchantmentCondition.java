@@ -7,7 +7,6 @@ import dev.imb11.smartitemhighlight.SmartItemHighlight;
 import dev.imb11.smartitemhighlight.api.condition.ComparisonType;
 import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -15,10 +14,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 
 import java.util.Optional;
-import java.util.function.Function;
 
 public class EnchantmentCondition extends HighlightCondition {
-    public static final ResourceLocation SERIALIZATION_ID = ResourceLocation.fromNamespaceAndPath(SmartItemHighlight.MOD_ID, "enchantment");
+    public static final ResourceLocation SERIALIZATION_ID = SmartItemHighlight.loc("enchantment");
     public static final MapCodec<EnchantmentCondition> CODEC = RecordCodecBuilder.<EnchantmentCondition>mapCodec(instance ->
             extendCodec(instance)
                     .and(ResourceLocation.CODEC.fieldOf("enchantment").forGetter(EnchantmentCondition::getEnchantment))

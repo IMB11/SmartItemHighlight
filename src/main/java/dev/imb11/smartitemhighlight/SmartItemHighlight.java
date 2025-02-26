@@ -3,9 +3,10 @@ package dev.imb11.smartitemhighlight;
 import dev.imb11.mru.LoaderUtils;
 import dev.imb11.smartitemhighlight.api.SIHEvent;
 import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
-import dev.imb11.smartitemhighlight.api.condition.RenderFunction;
+import dev.imb11.smartitemhighlight.api.render.RenderFunction;
 import dev.imb11.smartitemhighlight.api.condition.builtin.EnchantmentCondition;
 import dev.imb11.smartitemhighlight.api.events.ItemHighlightEvents;
+import dev.imb11.smartitemhighlight.api.render.builtin.StarRenderFunction;
 import dev.imb11.smartitemhighlight.config.HighlightConditionManager;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.RenderType;
@@ -24,7 +25,6 @@ public class SmartItemHighlight {
     public static final Path CONFIG_FOLDER = LoaderUtils.getConfigFolder(MOD_ID);
 
     public static HashSet<String> highlightedItems = new HashSet<>();
-    public static final Map<ResourceLocation, RenderFunction> RENDER_FUNCTION_REGISTRY = new HashMap<>();
 
     public static void initialize() {
         ItemHighlightEvents.SHOULD_RENDER.register(((drawContext, livingEntity, world, stack, x, y, seed, z) -> {
@@ -37,22 +37,21 @@ public class SmartItemHighlight {
                if (loadedCondition.isEnabled())
                    if (loadedCondition.shouldHighlightStack((ClientLevel) world, stack)) {
                        ResourceLocation renderFunction = loadedCondition.getRenderFunction();
-                       RenderFunction function = RENDER_FUNCTION_REGISTRY.get(renderFunction);
+                       RenderFunction function = RenderFunction.RENDER_FUNCTION_REGISTRY.get(renderFunction);
                        if (function != null)
                            function.render(loadedCondition, world, livingEntity, stack, seed, drawContext, x, y, z);
                    }
             }
         }));
 
-        // Register default render functions
-        RENDER_FUNCTION_REGISTRY.put(ResourceLocation.fromNamespaceAndPath(MOD_ID, "default"), (condition, world, livingEntity, stack, seed, drawContext, x, y, z) -> {
-            drawContext.fill(RenderType.gui(), x, y, x + 16, y + 16, Integer.MAX_VALUE);
-            Utils.renderTexture(drawContext, "textures/star.png", x, y, 16, 16);
-        });
-
         HighlightConditionManager.register(EnchantmentCondition.SERIALIZATION_ID, EnchantmentCondition.CODEC);
+
+        RenderFunction.RENDER_FUNCTION_REGISTRY.put(StarRenderFunction.ID, new StarRenderFunction());
+
         HighlightConditionManager.load();
     }
 
-
+    public static ResourceLocation loc(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    }
 }
