@@ -35,7 +35,7 @@ public class OutlineRenderFunction implements RenderFunction {
     public void render(HighlightCondition condition, Level world, LivingEntity livingEntity, ItemStack stack, int seed, GuiGraphics drawContext, int x, int y, int z) {
         Minecraft minecraft = ((GuiGraphicsAccessor) drawContext).SIH$getClient();
 
-        //? if 1.20 {
+        //? if 1.21 {
         /*BakedModel model = minecraft.getItemRenderer().getModel(stack, world, livingEntity, seed);
          *///?} else {
         // None finished, I'm having trouble finding the baked model in 1.21.4
