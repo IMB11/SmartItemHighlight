@@ -1,7 +1,6 @@
 package dev.imb11.smartitemhighlight;
 
 import dev.imb11.mru.LoaderUtils;
-import dev.imb11.smartitemhighlight.api.SIHEvent;
 import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
 import dev.imb11.smartitemhighlight.api.render.RenderFunction;
 import dev.imb11.smartitemhighlight.api.condition.builtin.EnchantmentCondition;
@@ -14,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
-import java.util.HashSet;
 
 import net.minecraft.resources.ResourceLocation;
 
@@ -23,14 +21,7 @@ public class SmartItemHighlight {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     public static final Path CONFIG_FOLDER = LoaderUtils.getConfigFolder(MOD_ID);
 
-    public static HashSet<String> highlightedItems = new HashSet<>();
-
     public static void initialize() {
-        ItemHighlightEvents.SHOULD_RENDER.register(((drawContext, livingEntity, world, stack, x, y, seed, z) -> {
-            // Do we really need this event anymore now that its being handled by the HighlightCondition class?
-            return SIHEvent.CallbackResult.SUCCESS;
-        }));
-
         ItemHighlightEvents.RENDER_HIGHLIGHT.register(((drawContext, livingEntity, world, stack, x, y, seed, z) -> {
             for (HighlightCondition loadedCondition : HighlightConditionManager.getLoadedConditions()) {
                if (loadedCondition.isEnabled())
