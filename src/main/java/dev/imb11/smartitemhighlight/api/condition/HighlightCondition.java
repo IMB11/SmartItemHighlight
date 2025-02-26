@@ -1,48 +1,59 @@
 package dev.imb11.smartitemhighlight.api.condition;
 
+import com.mojang.datafixers.Products;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-public interface HighlightCondition {
-    Map<ResourceLocation, MapCodec<? extends HighlightCondition>> TYPES = new HashMap<>();
-    Codec<HighlightCondition> CODEC = ResourceLocation.CODEC.dispatch("type", HighlightCondition::getSerializationId, TYPES::get);
-    ResourceLocation getSerializationId();
+public abstract class HighlightCondition {
+    protected static final Map<ResourceLocation, MapCodec<? extends HighlightCondition>> TYPES = new HashMap<>();
 
-    /**
-     * Whether the condition is true for a given stack.
-     * @param stack The stack to check
-     * @return If true the stack will be highlighted in the inventory.
-     */
-    boolean shouldHighlightStack(ClientLevel level, ItemStack stack);
-
-    /**
-     * Whether the condition is enabled or not.
-     * @return If false, {@link HighlightCondition#shouldHighlightStack(ClientLevel, ItemStack)} will be skipped and assumed to be false.
-     */
-    boolean isEnabled();
-
-    /**
-     * The texture used to render the highlight.
-     */
-    default @Nullable ResourceLocation getTexture() {
-        return ResourceLocation.fromNamespaceAndPath("smartitemhighlight", "textures/star.png");
+    public static <T extends HighlightCondition> Products.P3<RecordCodecBuilder.Mu<T>, Boolean, Optional<ResourceLocation>, ResourceLocation> extendCodec(RecordCodecBuilder.Instance<T> instance) {
+        return instance.group(
+                Codec.BOOL.fieldOf("enabled").forGetter(HighlightCondition::isEnabled),
+                ResourceLocation.CODEC.optionalFieldOf("overlayTexture").forGetter(HighlightCondition::getTexture),
+                ResourceLocation.CODEC.fieldOf("renderFunction").forGetter(HighlightCondition::getRenderFunction)
+        );
     }
 
-    default RenderType getRenderType() {
-        return RenderType.TEXTURED;
+    protected static final Codec<HighlightCondition> CODEC = ResourceLocation.CODEC.dispatch("type", HighlightCondition::getSerializationId, TYPES::get);
+
+    protected final Optional<ResourceLocation> overlayTexture;
+    protected final ResourceLocation renderFunction;
+    protected boolean enabled;
+
+    public HighlightCondition(boolean enabled, Optional<ResourceLocation> overlay, ResourceLocation renderFunction) {
+        this.enabled = enabled;
+        this.overlayTexture = overlay;
+        this.renderFunction = renderFunction;
     }
 
-    enum RenderType {
-        /**
-         * A texture rendered on t
-         */
+    public abstract ResourceLocation getSerializationId();
+
+    public abstract boolean shouldHighlightStack(ClientLevel level, ItemStack stack);
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Optional<ResourceLocation> getTexture() {
+        return overlayTexture;
+    }
+
+    public ResourceLocation getRenderFunction() {
+        return renderFunction;
+    }
+
+    public enum RenderType {
         TEXTURED,
         TEXTURE_TINTABLE,
         CUSTOM

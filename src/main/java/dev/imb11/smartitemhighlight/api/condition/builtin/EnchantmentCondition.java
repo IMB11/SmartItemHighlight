@@ -1,7 +1,5 @@
-package dev.imb11.smartitemhighlight.conditions;
+package dev.imb11.smartitemhighlight.api.condition.builtin;
 
-import com.mojang.datafixers.kinds.App;
-import com.mojang.datafixers.util.Function4;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -10,26 +8,34 @@ import dev.imb11.smartitemhighlight.api.condition.ComparisonType;
 import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 
 import java.util.Optional;
+import java.util.function.Function;
 
-public class EnchantmentCondition implements HighlightCondition {
+public class EnchantmentCondition extends HighlightCondition {
     public static final ResourceLocation SERIALIZATION_ID = ResourceLocation.fromNamespaceAndPath(SmartItemHighlight.MOD_ID, "enchantment");
-    public static final MapCodec<EnchantmentCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            Codec.BOOL.fieldOf("enabled").forGetter(EnchantmentCondition::isEnabled),
-            ResourceLocation.CODEC.fieldOf("enchantment").forGetter(EnchantmentCondition::getEnchantment),
-            Codec.INT.optionalFieldOf("level").forGetter(EnchantmentCondition::getLevel),
-            ComparisonType.CODEC.optionalFieldOf("comparisonType").forGetter(EnchantmentCondition::getComparisonType)
-    ).apply(instance, EnchantmentCondition::new));
+    public static final MapCodec<EnchantmentCondition> CODEC = RecordCodecBuilder.<EnchantmentCondition>mapCodec(instance ->
+            extendCodec(instance)
+                    .and(ResourceLocation.CODEC.fieldOf("enchantment").forGetter(EnchantmentCondition::getEnchantment))
+                    .and(Codec.INT.optionalFieldOf("level").forGetter(EnchantmentCondition::getLevel))
+                    .and(ComparisonType.CODEC.optionalFieldOf("comparisonType").forGetter(EnchantmentCondition::getComparisonType))
+            .apply(instance, EnchantmentCondition::new));
 
-    public boolean enabled;
+    static {
+        HighlightCondition.TYPES.put(EnchantmentCondition.SERIALIZATION_ID, EnchantmentCondition.CODEC);
+    }
+
+    public EnchantmentCondition(boolean enabled, Optional<ResourceLocation> overlay, ResourceLocation renderFunction, ResourceLocation enchantment, Optional<Integer> level, Optional<ComparisonType> comparisonType) {
+        super(enabled, overlay, renderFunction);
+        this.enchantment = enchantment;
+        this.level = level;
+        this.comparisonType = comparisonType;
+    }
 
     public ResourceLocation getEnchantment() {
         return enchantment;
@@ -46,25 +52,6 @@ public class EnchantmentCondition implements HighlightCondition {
     public final ResourceLocation enchantment;
     public final Optional<Integer> level;
     public final Optional<ComparisonType> comparisonType;
-
-    public EnchantmentCondition(boolean enabled, ResourceLocation enchantment, Optional<Integer> level, Optional<ComparisonType> comparisonType) {
-        this.enabled = enabled;
-        this.enchantment = enchantment;
-        this.level = level;
-        this.comparisonType = comparisonType;
-    }
-
-    public EnchantmentCondition(boolean enabled, ResourceLocation enchantment, ComparisonType comparisonType) {
-        this(enabled, enchantment, Optional.empty(), Optional.of(comparisonType));
-    }
-
-    public EnchantmentCondition(boolean enabled, ResourceLocation enchantment, Integer level) {
-        this(enabled, enchantment, Optional.of(level), Optional.empty());
-    }
-
-    public EnchantmentCondition(boolean enabled, ResourceLocation enchantment) {
-        this(enabled, enchantment, Optional.empty(), Optional.empty());
-    }
 
     @Override
     public ResourceLocation getSerializationId() {
@@ -109,11 +96,6 @@ public class EnchantmentCondition implements HighlightCondition {
             return this.comparisonType.filter(type -> type == ComparisonType.NOT_EQUAL).isPresent()
                     && this.level.isEmpty();
         }
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.enabled;
     }
 
     @Override
