@@ -13,16 +13,17 @@ import net.minecraft.world.level.Level;
 
 import java.util.Optional;
 
-public class StarRenderFunction implements RenderFunction {
-    public static final ResourceLocation ID = SmartItemHighlight.loc("star");
+public class SlotOutlineRenderFunction implements RenderFunction {
+    public static final ResourceLocation ID = SmartItemHighlight.loc("slot_outline");
 
     @Override
     public void render(HighlightCondition condition, Level world, LivingEntity livingEntity, ItemStack stack, int seed, GuiGraphics graphics, int x, int y, int z) {
         Optional<JsonObject> renderOptions = condition.getRenderOptions();
 
-        ResourceLocation texture = ResourceLocation.parse(Utils.getOrDefault(renderOptions, "texture", "smartitemhighlight:textures/star.png"));
-
-        Utils.renderTexture(graphics, texture, x, y, Utils.getOrDefault(renderOptions, "width", 16),
-                Utils.getOrDefault(renderOptions, "height", 16));
+        graphics.renderOutline(x, y,
+                Utils.getOrDefault(renderOptions, "width", 16),
+                Utils.getOrDefault(renderOptions, "height", 16),
+                Utils.getOrDefault(renderOptions, "color", 0xFFFF0000)
+        );
     }
 }

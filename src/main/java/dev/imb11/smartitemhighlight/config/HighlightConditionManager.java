@@ -34,7 +34,7 @@ public class HighlightConditionManager {
 
     private static <T extends HighlightCondition> List<T> createDefault() {
         return List.of(
-                (T) new EnchantmentCondition(true, Optional.empty(), ResourceLocation.fromNamespaceAndPath(SmartItemHighlight.MOD_ID, "default"),
+                (T) new EnchantmentCondition(true, ResourceLocation.fromNamespaceAndPath(SmartItemHighlight.MOD_ID, "default"),
                         Enchantments.EFFICIENCY.location(), Optional.of(1), Optional.of(ComparisonType.EQUAL))
         );
     }
@@ -70,7 +70,6 @@ public class HighlightConditionManager {
                 conditionDataResult.ifSuccess(condition -> {
                     if (element.getAsJsonObject().has("renderOptions")) {
                         condition.setRenderOptions(element.getAsJsonObject().getAsJsonObject("renderOptions"));
-                        condition.decodeRenderOptions();
                     }
 
                     LOADED_CONDITIONS.add(condition);

@@ -6,6 +6,8 @@ import dev.imb11.smartitemhighlight.api.render.RenderFunction;
 import dev.imb11.smartitemhighlight.api.condition.builtin.EnchantmentCondition;
 import dev.imb11.smartitemhighlight.api.events.ItemHighlightEvents;
 import dev.imb11.smartitemhighlight.api.render.builtin.DefaultRenderFunction;
+import dev.imb11.smartitemhighlight.api.render.builtin.PulseSlotOutlineRenderFunction;
+import dev.imb11.smartitemhighlight.api.render.builtin.SlotOutlineRenderFunction;
 import dev.imb11.smartitemhighlight.api.render.builtin.StarRenderFunction;
 import dev.imb11.smartitemhighlight.config.HighlightConditionManager;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -38,6 +40,8 @@ public class SmartItemHighlight {
 
         RenderFunction.RENDER_FUNCTION_REGISTRY.put(DefaultRenderFunction.ID, new DefaultRenderFunction());
         RenderFunction.RENDER_FUNCTION_REGISTRY.put(StarRenderFunction.ID, new StarRenderFunction());
+        RenderFunction.RENDER_FUNCTION_REGISTRY.put(SlotOutlineRenderFunction.ID, new SlotOutlineRenderFunction());
+        RenderFunction.RENDER_FUNCTION_REGISTRY.put(PulseSlotOutlineRenderFunction.ID, new PulseSlotOutlineRenderFunction());
 //        RenderFunction.RENDER_FUNCTION_REGISTRY.put(OutlineRenderFunction.ID, new OutlineRenderFunction());
 
         HighlightConditionManager.load();

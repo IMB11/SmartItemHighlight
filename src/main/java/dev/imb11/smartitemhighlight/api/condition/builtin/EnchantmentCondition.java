@@ -33,8 +33,8 @@ public class EnchantmentCondition extends HighlightCondition {
                     .and(ComparisonType.CODEC.optionalFieldOf("comparisonType").forGetter(EnchantmentCondition::getComparisonType))
                     .apply(instance, EnchantmentCondition::new));
 
-    public EnchantmentCondition(boolean enabled, Optional<ResourceLocation> overlay, ResourceLocation renderFunction, ResourceLocation enchantment, Optional<Integer> level, Optional<ComparisonType> comparisonType) {
-        super(enabled, overlay, renderFunction);
+    public EnchantmentCondition(boolean enabled, ResourceLocation renderFunction, ResourceLocation enchantment, Optional<Integer> level, Optional<ComparisonType> comparisonType) {
+        super(enabled, renderFunction);
         this.enchantment = enchantment;
         this.level = level;
         this.comparisonType = comparisonType;
