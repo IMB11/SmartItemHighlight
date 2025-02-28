@@ -11,10 +11,23 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+import java.awt.*;
+import java.util.Map;
 import java.util.Optional;
 
 public class PulseSlotOutlineRenderFunction implements RenderFunction {
     public static final ResourceLocation ID = SmartItemHighlight.loc("pulse_slot_outline");
+
+    @Override
+    public Map<String, Class<?>> getSuggestedRenderOptions() {
+        return Map.of(
+                "width", Integer.class,
+                "height", Integer.class,
+                "color", Color.class,
+                "speed", Integer.class,
+                "easing", Utils.Easing.class
+        );
+    }
 
     @Override
     public void render(HighlightCondition condition, Level world, LivingEntity livingEntity, ItemStack stack, int seed, GuiGraphics graphics, int x, int y, int z) {
