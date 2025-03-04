@@ -46,6 +46,7 @@ gradle.rootProject {
 
         if (!resolvedWikiAccessToken.isNullOrEmpty()) {
             wikiAccessToken = resolvedWikiAccessToken
+            println("Success: `wiki` extension has been configured with an access token.")
         }
     } ?: println("Warning: `wiki` extension is not available in the root project.")
 }
