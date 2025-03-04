@@ -1,6 +1,7 @@
 plugins {
     id("dev.kikugie.stonecutter")
 }
+
 stonecutter active "1.21.4-fabric" /* [SC] DO NOT EDIT */
 
 stonecutter registerChiseled tasks.register("chiseledBuild", stonecutter.chiseled) {
@@ -27,4 +28,24 @@ allprojects {
         maven("https://maven.shedaniel.me/")
         maven("https://maven.terraformersmc.com/releases")
     }
+}
+
+gradle.rootProject {
+    apply(plugin = "org.moddedmc.wiki.toolkit")
+
+    (extensions.findByName("wiki") as? org.moddedmc.wiki.toolkit.WikiToolkitExtension)?.apply {
+        docs {
+            create("smartitemhighlight") {
+                root = rootProject.file("docs/")
+            }
+        }
+
+        val resolvedWikiAccessToken = "WIKI_ACCESS_TOKEN".let {
+            System.getenv(it) ?: findProperty(it)?.toString()
+        }
+
+        if (!resolvedWikiAccessToken.isNullOrEmpty()) {
+            wikiAccessToken = resolvedWikiAccessToken
+        }
+    } ?: println("Warning: `wiki` extension is not available in the root project.")
 }

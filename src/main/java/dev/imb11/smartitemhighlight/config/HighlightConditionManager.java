@@ -8,6 +8,7 @@ import dev.imb11.smartitemhighlight.SmartItemHighlight;
 import dev.imb11.smartitemhighlight.api.condition.ComparisonType;
 import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
 import dev.imb11.smartitemhighlight.api.condition.builtin.EnchantmentCondition;
+import dev.imb11.smartitemhighlight.api.condition.builtin.PlainItemCondition;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.enchantment.Enchantments;
 
@@ -80,7 +81,7 @@ public class HighlightConditionManager {
         }
     }
 
-    public static void register(ResourceLocation serializationId, MapCodec<EnchantmentCondition> codec) {
+    public static void register(ResourceLocation serializationId, MapCodec<? extends HighlightCondition> codec) {
         HighlightCondition.TYPES.put(serializationId, codec);
     }
 }

@@ -2,6 +2,7 @@ package dev.imb11.smartitemhighlight;
 
 import dev.imb11.mru.LoaderUtils;
 import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
+import dev.imb11.smartitemhighlight.api.condition.builtin.PlainItemCondition;
 import dev.imb11.smartitemhighlight.api.render.RenderFunction;
 import dev.imb11.smartitemhighlight.api.condition.builtin.EnchantmentCondition;
 import dev.imb11.smartitemhighlight.api.events.ItemHighlightEvents;
@@ -37,6 +38,7 @@ public class SmartItemHighlight {
         }));
 
         HighlightConditionManager.register(EnchantmentCondition.SERIALIZATION_ID, EnchantmentCondition.CODEC);
+        HighlightConditionManager.register(PlainItemCondition.SERIALIZATION_ID, PlainItemCondition.CODEC);
 
         RenderFunction.RENDER_FUNCTION_REGISTRY.put(DefaultRenderFunction.ID, new DefaultRenderFunction());
         RenderFunction.RENDER_FUNCTION_REGISTRY.put(StarRenderFunction.ID, new StarRenderFunction());

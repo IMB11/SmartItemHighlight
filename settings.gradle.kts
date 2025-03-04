@@ -17,6 +17,7 @@ pluginManagement {
 
 plugins {
     id("dev.kikugie.stonecutter") version "0.5+"
+    id("org.moddedmc.wiki.toolkit") version "+" apply false
 }
 
 stonecutter {
