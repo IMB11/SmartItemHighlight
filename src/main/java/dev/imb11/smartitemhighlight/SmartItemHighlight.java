@@ -2,6 +2,8 @@ package dev.imb11.smartitemhighlight;
 
 import dev.imb11.mru.LoaderUtils;
 import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
+import dev.imb11.smartitemhighlight.api.condition.builtin.DurabilityCondition;
+import dev.imb11.smartitemhighlight.api.condition.builtin.FoodCondition;
 import dev.imb11.smartitemhighlight.api.condition.builtin.PlainItemCondition;
 import dev.imb11.smartitemhighlight.api.render.RenderFunction;
 import dev.imb11.smartitemhighlight.api.condition.builtin.EnchantmentCondition;
@@ -44,6 +46,8 @@ public class SmartItemHighlight {
 
         HighlightConditionManager.register(EnchantmentCondition.SERIALIZATION_ID, EnchantmentCondition.CODEC);
         HighlightConditionManager.register(PlainItemCondition.SERIALIZATION_ID, PlainItemCondition.CODEC);
+        HighlightConditionManager.register(DurabilityCondition.SERIALIZATION_ID, DurabilityCondition.CODEC);
+        HighlightConditionManager.register(FoodCondition.SERIALIZATION_ID, FoodCondition.CODEC);
 
         RenderFunction.RENDER_FUNCTION_REGISTRY.put(DefaultRenderFunction.ID, new DefaultRenderFunction());
         RenderFunction.RENDER_FUNCTION_REGISTRY.put(StarRenderFunction.ID, new StarRenderFunction());
