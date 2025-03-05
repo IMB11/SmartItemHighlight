@@ -52,25 +52,6 @@ public class SmartItemHighlight {
 //        RenderFunction.RENDER_FUNCTION_REGISTRY.put(OutlineRenderFunction.ID, new OutlineRenderFunction());
 
         HighlightConditionManager.load();
-
-        // TODO: need a is dev env LoaderUtils function added to MRU... maybe do this with the Sounds util stuff that needs moving.
-        if (LoaderUtils.getGameDir().getFileName().toString().equals("run")) {
-            StringBuilder markdownRenderFunctionDocs = new StringBuilder("""
-                    # Render Function Documentation
-                    This document outlines each registered render function's various optional `renderOptions` for reference.
-                    """);
-            for (Map.Entry<ResourceLocation, RenderFunction> resourceLocationRenderFunctionEntry : RenderFunction.RENDER_FUNCTION_REGISTRY.entrySet()) {
-                ResourceLocation id = resourceLocationRenderFunctionEntry.getKey();
-                RenderFunction function = resourceLocationRenderFunctionEntry.getValue();
-                markdownRenderFunctionDocs.append("\n# `%s`\n%s".formatted(id.toString(), function.getSuggestedRenderOptions().entrySet().stream().map(entry -> String.format("- `%s` of type `%s`\n", entry.getKey(), entry.getValue().getTypeName())).collect(Collectors.joining())));
-            }
-
-            try {
-                Files.writeString(CONFIG_FOLDER.resolve("render-function-docs.md"), markdownRenderFunctionDocs.toString(), StandardCharsets.UTF_16);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
     }
 
     public static ResourceLocation loc(String path) {
