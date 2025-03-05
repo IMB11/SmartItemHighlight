@@ -2,6 +2,9 @@ package dev.imb11.smartitemhighlight.api;
 
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
+
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import net.minecraft.core.Holder;
@@ -10,12 +13,23 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 
 // TODO: Move this into https://github.com/IMB11/MRU - deduplicate from this mod and Sounds mod.
 public class TagList<T> {
     private final List<Either<ResourceKey<T>, TagKey<T>>> _list;
+
     public TagList(List<Either<ResourceKey<T>, TagKey<T>>> list) {
         _list = list;
+    }
+
+    public static <T> Either<ResourceKey<T>, TagKey<T>> ofTag(TagKey<T> tag) {
+        return Either.right(tag);
+    }
+
+    public static <T> Either<ResourceKey<T>, TagKey<T>> ofObj(T obj, Registry<T> registry) {
+        ResourceKey<T> key = registry.getResourceKey(obj).orElseThrow();
+        return Either.left(key);
     }
 
     public static <T> Codec<TagList<T>> getCodec(ResourceKey<? extends Registry<T>> registryKey) {

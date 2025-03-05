@@ -15,7 +15,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class PlainItemCondition extends HighlightCondition {
-    public static final ResourceLocation SERIALIZATION_ID = SmartItemHighlight.loc("enchantment");
+    public static final ResourceLocation SERIALIZATION_ID = SmartItemHighlight.loc("matches_item");
     public static final MapCodec<PlainItemCondition> CODEC = RecordCodecBuilder.mapCodec(instance ->
             extendCodec(instance)
                     .and(TagList.getCodec(Registries.ITEM).fieldOf("items").forGetter(PlainItemCondition::getMatchingItems))
