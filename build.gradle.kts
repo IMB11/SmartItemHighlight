@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.modstitch
+
 plugins {
     id("dev.isxander.modstitch.base") version "0.5.12"
 }
@@ -186,6 +188,16 @@ tasks.jar {
         rename { filename -> "${filename}_${project.base.archivesName.get()}" }
     }
 }
+
+val buildAndCollect by tasks.registering(Copy::class) {
+    group = "build"
+
+    dependsOn(modstitch.finalJarTask)
+    from(modstitch.finalJarTask.flatMap { it.archiveFile })
+
+    into(rootProject.layout.buildDirectory.dir("finalJars"))
+}
+createActiveTask(buildAndCollect)
 
 fun createActiveTask(
     taskProvider: TaskProvider<*>? = null,
