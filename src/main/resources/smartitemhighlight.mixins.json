@@ -3,11 +3,13 @@
   "minVersion": "0.8",
   "package": "dev.imb11.smartitemhighlight.mixins",
   "compatibilityLevel": "JAVA_17",
-  "mixins": [],
+  "mixins": [
+  ],
   "minMixinExtrasVersion": "0.5.0-beta.5",
   "client": [
     "HighlightItemMixin",
-    "MinecraftClientAccessorMixin"
+    "MinecraftClientAccessorMixin",
+    "ItemStackAgeMixin"
   ],
   "injectors": {
     "defaultRequire": 1

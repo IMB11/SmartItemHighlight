@@ -2,11 +2,8 @@ package dev.imb11.smartitemhighlight;
 
 import dev.imb11.mru.LoaderUtils;
 import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
-import dev.imb11.smartitemhighlight.api.condition.builtin.DurabilityCondition;
-import dev.imb11.smartitemhighlight.api.condition.builtin.FoodCondition;
-import dev.imb11.smartitemhighlight.api.condition.builtin.PlainItemCondition;
+import dev.imb11.smartitemhighlight.api.condition.builtin.*;
 import dev.imb11.smartitemhighlight.api.render.RenderFunction;
-import dev.imb11.smartitemhighlight.api.condition.builtin.EnchantmentCondition;
 import dev.imb11.smartitemhighlight.api.events.ItemHighlightEvents;
 import dev.imb11.smartitemhighlight.api.render.builtin.DefaultRenderFunction;
 import dev.imb11.smartitemhighlight.api.render.builtin.PulseSlotOutlineRenderFunction;
@@ -48,6 +45,7 @@ public class SmartItemHighlight {
         HighlightConditionManager.register(PlainItemCondition.SERIALIZATION_ID, PlainItemCondition.CODEC);
         HighlightConditionManager.register(DurabilityCondition.SERIALIZATION_ID, DurabilityCondition.CODEC);
         HighlightConditionManager.register(FoodCondition.SERIALIZATION_ID, FoodCondition.CODEC);
+        HighlightConditionManager.register(PickupCondition.SERIALIZATION_ID, PickupCondition.CODEC);
 
         RenderFunction.RENDER_FUNCTION_REGISTRY.put(DefaultRenderFunction.ID, new DefaultRenderFunction());
         RenderFunction.RENDER_FUNCTION_REGISTRY.put(StarRenderFunction.ID, new StarRenderFunction());
