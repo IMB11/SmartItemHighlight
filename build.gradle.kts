@@ -215,7 +215,7 @@ fun createActiveTask(
 
     if (stonecutter.current.isActive) {
         rootProject.tasks.register(activeTaskName) {
-            group = "sounds${if (internal) "/versioned" else ""}"
+            group = "smartitemhighlight${if (internal) "/versioned" else ""}"
 
             task?.let { dependsOn(it) }
         }
