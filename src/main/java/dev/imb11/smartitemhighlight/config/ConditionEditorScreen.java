@@ -77,10 +77,7 @@ public class ConditionEditorScreen extends Screen {
                     SystemToast.add(this.minecraft.getToastManager(), SystemToast.SystemToastId.LOW_DISK_SPACE, Component.translatable("highlight.delete.fail"), Component.translatable("highlight.delete.fail.msg"));
                     return;
                 }
-                for (AbstractWidget connectedWidget : card.getConnectedWidgets()) {
-                    this.removeWidget(connectedWidget);
-                }
-                this.removeWidget(card);
+                this.minecraft.setScreen(new ConditionEditorScreen(this.parent));
             }).bounds(startX + 183, cardY + 42, 79, 16).build()));
 
             // Add the Preview button at (267, 5) relative to card.

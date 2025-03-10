@@ -96,6 +96,7 @@ public class HighlightConditionManager {
     }
 
     public static boolean delete(HighlightCondition condition) {
+        LOADED_CONDITIONS.remove(condition);
         return CONDITIONS_PATH.resolve(condition.getFileID() + ".json").toFile().delete();
     }
 
