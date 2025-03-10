@@ -1,11 +1,18 @@
 package dev.imb11.smartitemhighlight.config;
 
 import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
+import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.toasts.SystemToast;
+import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,13 +59,28 @@ public class ConditionEditorScreen extends Screen {
             }).bounds(startX + 13, cardY + 42, 79, 16).build()));
 
             // Add the Disable button at (98, 42) relative to card.
-            card.addConnectedWidget(this.addRenderableWidget(Button.builder(Component.literal("Disable"), button -> {
-                // Disable action logic here.
+            card.addConnectedWidget(this.addRenderableWidget(Button.builder(condition.isEnabled() ? Component.translatable("highlight.enabled").withStyle(ChatFormatting.GREEN) : Component.translatable("highlight.disabled").withStyle(ChatFormatting.RED), button -> {
+                condition.setEnabled(!condition.isEnabled());
+                button.setMessage(condition.isEnabled() ? Component.translatable("highlight.enabled").withStyle(ChatFormatting.GREEN) : Component.translatable("highlight.disabled").withStyle(ChatFormatting.RED));
+                try {
+                    HighlightConditionManager.save(condition);
+                } catch (IOException e) {
+                    SystemToast.add(this.minecraft.getToastManager(), SystemToast.SystemToastId.LOW_DISK_SPACE, Component.translatable("highlight.disable_update_file.fail"), Component.translatable("highlight.disable_update_file.fail.msg"));
+                }
             }).bounds(startX + 98, cardY + 42, 79, 16).build()));
 
             // Add the Delete button at (183, 42) relative to card.
             card.addConnectedWidget(this.addRenderableWidget(Button.builder(Component.literal("Delete"), button -> {
-                // Delete action logic here.
+                boolean success = HighlightConditionManager.delete(card.getCondition());
+                if (!success) {
+                    assert this.minecraft != null;
+                    SystemToast.add(this.minecraft.getToastManager(), SystemToast.SystemToastId.LOW_DISK_SPACE, Component.translatable("highlight.delete.fail"), Component.translatable("highlight.delete.fail.msg"));
+                    return;
+                }
+                for (AbstractWidget connectedWidget : card.getConnectedWidgets()) {
+                    this.removeWidget(connectedWidget);
+                }
+                this.removeWidget(card);
             }).bounds(startX + 183, cardY + 42, 79, 16).build()));
 
             // Add the Preview button at (267, 5) relative to card.

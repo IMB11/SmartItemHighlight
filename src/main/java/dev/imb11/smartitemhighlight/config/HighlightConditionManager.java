@@ -81,7 +81,9 @@ public class HighlightConditionManager {
             LOADED_CONDITIONS.clear();
 
             for (String conditionFilename : CONDITIONS_PATH.toFile().list((dir, name) -> name.endsWith(".json"))) {
-                LOADED_CONDITIONS.add(readFromFile(CONDITIONS_PATH.resolve(conditionFilename)));
+                var cond = readFromFile(CONDITIONS_PATH.resolve(conditionFilename));
+                cond.setFileID(conditionFilename.replace(".json", ""));
+                LOADED_CONDITIONS.add(cond);
             }
 
         } catch (Exception e) {
@@ -91,5 +93,13 @@ public class HighlightConditionManager {
 
     public static void register(ResourceLocation serializationId, MapCodec<? extends HighlightCondition> codec) {
         HighlightCondition.TYPES.put(serializationId, codec);
+    }
+
+    public static boolean delete(HighlightCondition condition) {
+        return CONDITIONS_PATH.resolve(condition.getFileID() + ".json").toFile().delete();
+    }
+
+    public static void save(HighlightCondition condition) throws IOException {
+        writeToFile(CONDITIONS_PATH.resolve(condition.getFileID() + ".json"), condition);
     }
 }

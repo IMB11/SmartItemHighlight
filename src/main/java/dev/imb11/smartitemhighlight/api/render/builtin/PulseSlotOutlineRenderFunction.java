@@ -7,9 +7,7 @@ import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
 import dev.imb11.smartitemhighlight.api.render.RenderFunction;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 
 import java.awt.*;
 import java.util.Map;
@@ -30,7 +28,7 @@ public class PulseSlotOutlineRenderFunction implements RenderFunction {
     }
 
     @Override
-    public void render(HighlightCondition condition, Level world, LivingEntity livingEntity, ItemStack stack, int seed, GuiGraphics graphics, int x, int y, int z) {
+    public void render(HighlightCondition condition, ItemStack stack, int seed, GuiGraphics graphics, int x, int y, int z) {
         Optional<JsonObject> renderOptions = condition.getRenderOptions();
 
         double time = System.currentTimeMillis() / 0.5D;

@@ -17,12 +17,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import net.minecraft.resources.ResourceLocation;
 
@@ -39,7 +34,7 @@ public class SmartItemHighlight {
                        ResourceLocation renderFunction = loadedCondition.getRenderFunction();
                        RenderFunction function = RenderFunction.RENDER_FUNCTION_REGISTRY.get(renderFunction);
                        if (function != null)
-                           function.render(loadedCondition, world, livingEntity, stack, seed, drawContext, x, y, z);
+                           function.render(loadedCondition, stack, seed, drawContext, x, y, z);
                    }
             }
         }));
