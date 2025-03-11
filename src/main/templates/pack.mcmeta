@@ -1,6 +1,6 @@
 {
     "pack": {
-        "description": "A pack of sounds for the sounds mod provided by the sounds mod... phew!",
+        "description": "The pack for the 'Smart Item Highlight' mod.",
         "pack_format": ${pack_format}
     }
 }
