@@ -25,10 +25,10 @@ public class SmartItemHighlight {
 
     private static Path getConfigFolder() {
         Path currentPath = Paths.get("").toAbsolutePath();
-        while (currentPath.endsWith("SmartItemHighlight"))
-            currentPath = currentPath.resolve("../");
+        while (!currentPath.endsWith("SmartItemHighlight") && !currentPath.getRoot().equals(currentPath))
+            currentPath = currentPath.resolve("../").normalize();
         if (currentPath.resolve("LocalFile.txt").toFile().exists())
-            return currentPath.resolve("run/config/smartitemhighlights");
+            return currentPath.resolve("run/config/smartitemhighlight");
         return LoaderUtils.getConfigFolder(MOD_ID);
     }
 

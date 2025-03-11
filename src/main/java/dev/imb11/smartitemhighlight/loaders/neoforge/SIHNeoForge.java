@@ -1,5 +1,5 @@
 //? if neoforge {
-package dev.imb11.smartitemhighlight.loaders.neoforge;
+/*package dev.imb11.smartitemhighlight.loaders.neoforge;
 
 import dev.imb11.smartitemhighlight.SmartItemHighlight;
 import net.neoforged.fml.common.Mod;
@@ -12,4 +12,4 @@ public class SIHNeoForge {
         SmartItemHighlight.initialize();
     }
 }
-//?}
+*///?}
