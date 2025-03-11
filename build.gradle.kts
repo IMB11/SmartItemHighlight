@@ -117,7 +117,9 @@ modstitch {
 
         defaultRuns()
         configureNeoforge {
-            // empty configuration
+            runs.all {
+                gameDirectory = project.rootDir.toPath().resolve("./run").toFile()
+            }
         }
     }
 
