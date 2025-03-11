@@ -15,24 +15,35 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import net.minecraft.resources.ResourceLocation;
 
 public class SmartItemHighlight {
     public static final String MOD_ID = "smartitemhighlight";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static final Path CONFIG_FOLDER = LoaderUtils.getConfigFolder(MOD_ID);
+
+    private static Path getConfigFolder() {
+        Path currentPath = Paths.get("").toAbsolutePath();
+        while (currentPath.endsWith("SmartItemHighlight"))
+            currentPath = currentPath.resolve("../");
+        if (currentPath.resolve("LocalFile.txt").toFile().exists())
+            return currentPath.resolve("run/config/smartitemhighlights");
+        return LoaderUtils.getConfigFolder(MOD_ID);
+    }
+
+    public static final Path CONFIG_FOLDER = getConfigFolder();
 
     public static void initialize() {
         ItemHighlightEvents.RENDER_HIGHLIGHT.register(((drawContext, livingEntity, world, stack, x, y, seed, z) -> {
             for (HighlightCondition loadedCondition : HighlightConditionManager.getLoadedConditions()) {
-               if (loadedCondition.isEnabled())
-                   if (loadedCondition.shouldHighlightStack((ClientLevel) world, stack)) {
-                       ResourceLocation renderFunction = loadedCondition.getRenderFunction();
-                       RenderFunction function = RenderFunction.RENDER_FUNCTION_REGISTRY.get(renderFunction);
-                       if (function != null)
-                           function.render(loadedCondition, stack, seed, drawContext, x, y, z);
-                   }
+                if (loadedCondition.isEnabled())
+                    if (loadedCondition.shouldHighlightStack((ClientLevel) world, stack)) {
+                        ResourceLocation renderFunction = loadedCondition.getRenderFunction();
+                        RenderFunction function = RenderFunction.RENDER_FUNCTION_REGISTRY.get(renderFunction);
+                        if (function != null)
+                            function.render(loadedCondition, stack, seed, drawContext, x, y, z);
+                    }
             }
         }));
 

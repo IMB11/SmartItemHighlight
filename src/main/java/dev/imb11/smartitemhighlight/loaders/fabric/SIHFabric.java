@@ -1,5 +1,5 @@
 //? if fabric {
-package dev.imb11.smartitemhighlight.loaders.fabric;
+/*package dev.imb11.smartitemhighlight.loaders.fabric;
 
 import dev.imb11.smartitemhighlight.ModCommands;
 import dev.imb11.smartitemhighlight.SmartItemHighlight;
@@ -14,4 +14,4 @@ public class SIHFabric implements ClientModInitializer {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> ModCommands.register(dispatcher));
     }
 }
-//?}
+*///?}

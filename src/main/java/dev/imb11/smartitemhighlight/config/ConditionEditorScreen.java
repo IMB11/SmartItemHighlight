@@ -65,7 +65,11 @@ public class ConditionEditorScreen extends Screen {
                 try {
                     HighlightConditionManager.save(condition);
                 } catch (IOException e) {
+                    //? if 1.21 {
+                    /*SystemToast.add(this.minecraft.getToasts(), SystemToast.SystemToastId.LOW_DISK_SPACE, Component.translatable("highlight.disable_update_file.fail"), Component.translatable("highlight.disable_update_file.fail.msg"));
+                    *///?} else {
                     SystemToast.add(this.minecraft.getToastManager(), SystemToast.SystemToastId.LOW_DISK_SPACE, Component.translatable("highlight.disable_update_file.fail"), Component.translatable("highlight.disable_update_file.fail.msg"));
+                    //?}
                 }
             }).bounds(startX + 98, cardY + 42, 79, 16).build()));
 
@@ -74,7 +78,11 @@ public class ConditionEditorScreen extends Screen {
                 boolean success = HighlightConditionManager.delete(card.getCondition());
                 if (!success) {
                     assert this.minecraft != null;
+                    //? if 1.21 {
+                    /*SystemToast.add(this.minecraft.getToasts(), SystemToast.SystemToastId.LOW_DISK_SPACE, Component.translatable("highlight.delete.fail"), Component.translatable("highlight.delete.fail.msg"));
+                    *///?} else {
                     SystemToast.add(this.minecraft.getToastManager(), SystemToast.SystemToastId.LOW_DISK_SPACE, Component.translatable("highlight.delete.fail"), Component.translatable("highlight.delete.fail.msg"));
+                    //?}
                     return;
                 }
                 this.minecraft.setScreen(new ConditionEditorScreen(this.parent));

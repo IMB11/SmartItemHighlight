@@ -49,6 +49,6 @@ public class ItemStackAgeMixin implements ItemStackAgeMixinIO {
 
     @Override
     public boolean SIH$isInPlayerInventory(ClientLevel level) {
-        return Math.abs(level.getDayTime() - SIH$lastDayTime) < 10 && SIH$ticksInInventory > 0 && SIH$entityTickCount > 0;
+        return level != null && Math.abs(level.getDayTime() - SIH$lastDayTime) < 10 && SIH$ticksInInventory > 0 && SIH$entityTickCount > 0;
     }
 }
