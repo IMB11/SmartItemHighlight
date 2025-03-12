@@ -52,6 +52,7 @@ public class SmartItemHighlight {
         HighlightConditionManager.register(DurabilityCondition.SERIALIZATION_ID, DurabilityCondition.CODEC);
         HighlightConditionManager.register(FoodCondition.SERIALIZATION_ID, FoodCondition.CODEC);
         HighlightConditionManager.register(PickupCondition.SERIALIZATION_ID, PickupCondition.CODEC);
+        HighlightConditionManager.register(JavaCondition.SERIALIZATION_ID, JavaCondition.CODEC);
 
         RenderFunction.RENDER_FUNCTION_REGISTRY.put(DefaultRenderFunction.ID, new DefaultRenderFunction());
         RenderFunction.RENDER_FUNCTION_REGISTRY.put(StarRenderFunction.ID, new StarRenderFunction());
