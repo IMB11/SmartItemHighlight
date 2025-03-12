@@ -164,15 +164,11 @@ dependencies {
     modstitchImplementation(commonmarkDep)
     modstitchJiJ(commonmarkDep)
 
-    modstitchModImplementation("dev.imb11:mru:${property("deps.mru")}+${loader}").productionMod()
+    val sparkDep = "com.sparkjava:spark-core:2.9.4"
+    modstitchImplementation(sparkDep)
+    modstitchJiJ(sparkDep)
 
-    "dev.isxander:yet-another-config-lib:${property("deps.yacl")}-${loader}".let {
-        modstitchJiJ(it)
-        modstitchModApi(it) {
-            exclude(group = "net.fabricmc.fabric-api", module = "fabric-api")
-            exclude(group = "thedarkcolour")
-        }
-    }.productionMod()
+    modstitchModImplementation("dev.imb11:mru:${property("deps.mru")}+${loader}").productionMod()
 }
 
 sourceSets {

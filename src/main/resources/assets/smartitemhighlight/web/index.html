@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Smart Item Highlight - Editor</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Monaco Editor -->
+    <script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
+    <style>
+        #editor-container {
+            height: calc(100vh - 64px);
+        }
+        .save-indicator {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .logo-image {
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+<div class="flex flex-col h-screen">
+    <!-- Header -->
+    <header class="bg-gray-800 border-b border-gray-700 h-16 flex items-center justify-between px-4">
+        <div class="flex items-center space-x-3">
+            <img src="data:image/webp;base64,UklGRpoFAABXRUJQVlA4WAoAAAAIAAAAfwAAfwAAVlA4IAgFAADwHQCdASqAAIAAPpFCnEqlo6KhohQMqLASCWUAxrDsziHS7gI3qO/UOrf3Pj31CN0A/QAnrHsI98zawtLOi4T/0zFGK/DNtZC6Qsj324E93hh7H5VL3JwnIO20qhFSJ++PY5d2oVv/5Vma+pzttrVlsxS8oDsmNjhw9EVfbfww9hfQONfIFqis7sCRoHM3JWx29GgqkGWVGxLR5iNzVELC8mVNAyjBktNqiVnGUW+LF8yklxZojo1BHY0q8eR1Oulv/Nz7ITSwtB66Uo0kREHILdwpPYTzmyV0aOUftOsVIgVOC883+oDFKO0M+zhc8qq5w8CzC5mXQAD+/Kp2S7M4WuQPOGOatcK6FF/dqtS2XD9U0IWVpz3PEOjMkkBEj0nNLJMorqrGX8wUOJ3soZwgZFLvk+3W6hSNDkkdqvrbBgA2Dm55PGgfk2vdIsHlUdF+2QjMdY0G6F9VME+pSQW/f1wU56fcNQuOrgGE9KVC3DbnJRqzVzeL1pBCSrm6UsZDp8yM7mwULjQuBIBTny5pN7gIOX5R/UEnNtIkJ5heL6xDJo1e7ovArWLC7RUbJP8Lu/tPmnmhiXgxlyTb/5n7cLx1d+V5bWAkTf7ERQDXrEpVPdf0ezDnAFZ39yTVpHlTmyh+8W8iKeUxSOC+v3/jW4/9aokCLGVlRcOTBEivxdqPf5hp1Iv2rLRHPCgdp/A0jPUYouY9lZ42uoBsXQiKPiH+5Oeh74oGcTf06K0o/Nb2t9cuw/lLunScfPuoNLJ3JF7zKqI+1bzy/ZDfhj5Z7EZjLs5By5pdhrpvvoukvti9298zslb0MAtsSqq34Ov+yOXGLoqWSYEEgxVV7Ung8WyoVri10KWCt34XjFSNmaZR7fWMUuQN5j8b5Y4+uMG9VgbbVX1hRUk+Rnr4ABIRetFeAhFmEmjB6z9KoFlyOaDi96pyFGLzlaiE5f8NNX0BiW4Lu1ZgEiSaLTUUus7T1lx6wDx+fdlrZTyqQBS3k8fDo81jj9HWm1FNIyBMuPOgmJuDy+KlJjlo5m2oYoQB45/yMYVXzBTb2/qJRj5jNd63ZyYEvg+d0RdSfaQ9Qbs4C89fvBnNiyHbQgzdGHKdQB1yoJ/YVO6AFt0exNwSt7cJvTfIdUiG+yFShjnOQoABYIejYjZZ7GcBpz+Rvq8z5R3gTYfxYNehOkYOHBnbnusD+fm/8paFV3LUXzjRZTa5Q+AsQRAbVwDvkNEjxb9CUHdRXJjcSHrMrbcYo3Jv8RGl8xZBzbRbT0lvLd6iNJJLHG24GWRMhuqWufZyOgK+kKisX39RvQbugawss34MdrLo8C0ybFy2iE2on0c04GMllfJHiFXfKmhhU/Y7nJwTWybPDK3yjnoWBlOjZFtBEm3/0wk99sQtY5daEXwZWQLM1BgC7QdGv11fEX58m2deteeKhid4rGWazRrpO2mOiX0ooHMJ+6Gd/bXLD59o0rpxZj9vVACSl6bWjvJVPRVPzOIcfgkAbTyyMUeyBKpNob2rTArnK1sRWgfzzNjHBU9jlyQob46LlGf5Ztujcgm1j5SYl7nrIlAJGqXus78dbGD/hPGURwr8euMyu44srUk33ZcPolLUxueKqaLBZIjpX64qQjzF2uLLmoZWknpYoZajeTvRkyzb4BQ7Dg732lW3ezMVLCQE+KB19fqePkCVXf9TmsioUxuQiqj3+jpvksh2OJAbiwAARVhJRmwAAABNTQAqAAAAEEV4aWZNZXRhAAUBGgAFAAAAAQAAAFIBGwAFAAAAAQAAAFoBKAADAAAAAQACAAABMQACAAAACgAAAGICEwADAAAAAQABAAAAAAAAAAAASAAAAAEAAABIAAAAAWV6Z2lmLmNvbQA=" alt="Smart Item Highlight Logo" class="logo-image" />
+            <h1 class="text-xl font-bold">Smart Item Highlight Editor</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+            <div id="save-indicator" class="save-indicator opacity-0 text-sm flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span id="save-indicator-text">Saved</span>
+            </div>
+            <button id="save-button" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm flex items-center transition-colors duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                </svg>
+                <span id="save-button-text">Save (Ctrl+S)</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Editor Container -->
+    <div id="editor-container" class="flex-1"></div>
+</div>
+
+<script>
+    // Initial data placeholder
+    let data = `%%data_here%%`;
+    let fileId = null;
+    let editor = null;
+    let isValid = false;
+    let isSaving = false;
+    let schema = null;
+
+    // For development/testing
+    const debug_mode = false; // Set to true for testing
+    if (debug_mode) {
+        data = `{
+  "enabled": true,
+  "renderFunction": "smartitemhighlight:star",
+  "items": [
+    "#minecraft:axes",
+    "minecraft:cooked_beef"
+  ],
+  "type": "smartitemhighlight:matches_item"
+}`;
+        console.log("Debug mode has been enabled. Schema validation disabled.");
+    }
+
+    // Initialize Monaco Editor
+    require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@latest/min/vs' }});
+    window.MonacoEnvironment = {
+        getWorkerUrl: () => {
+            return URL.createObjectURL(new Blob([`
+                    self.MonacoEnvironment = {
+                        baseUrl: 'https://unpkg.com/monaco-editor@latest/min/'
+                    };
+                    importScripts('https://unpkg.com/monaco-editor@latest/min/vs/base/worker/workerMain.js');
+                `], { type: 'text/javascript' }));
+        }
+    };
+
+    // Load schema and initialize editor
+    window.onload = async () => {
+        fileId = new URLSearchParams(window.location.search).get("id");
+        if (!fileId && !debug_mode) {
+            alert("No ID query parameter found.");
+            return;
+        }
+
+        // Only fetch schema if not in debug mode
+        if (!debug_mode) {
+            try {
+                const response = await fetch('/schema');
+                schema = await response.json();
+            } catch (error) {
+                console.error("Failed to load schema:", error);
+                showSaveIndicator('error', 'Failed to load schema');
+            }
+        }
+
+        initializeEditor();
+    };
+
+    function initializeEditor() {
+        require(["vs/editor/editor.main"], function() {
+            // Configure JSON language with schema only if not in debug mode and schema is available
+            if (!debug_mode && schema) {
+                monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+                    validate: true,
+                    schemas: [{
+                        uri: "http://smartitemhighlight/schema.json",
+                        fileMatch: ["*"],
+                        schema: schema
+                    }],
+                    allowComments: false,
+                    trailingCommas: "error"
+                });
+            } else {
+                // Basic JSON validation without schema
+                monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+                    validate: true,
+                    allowComments: false,
+                    trailingCommas: "error"
+                });
+            }
+
+            // Create editor
+            editor = monaco.editor.create(document.getElementById('editor-container'), {
+                value: data,
+                language: 'json',
+                theme: 'vs-dark',
+                automaticLayout: true,
+                minimap: {
+                    enabled: true
+                },
+                scrollBeyondLastLine: false,
+                fontSize: 14,
+                lineNumbers: 'on',
+                renderLineHighlight: 'all',
+                formatOnPaste: true,
+                formatOnType: true
+            });
+
+            // Set up validation status updates
+            const model = editor.getModel();
+            monaco.editor.onDidChangeMarkers(([resource]) => {
+                if (resource.toString() === model.uri.toString()) {
+                    const markers = monaco.editor.getModelMarkers({ resource });
+                    const errorMarkers = markers.filter(m => m.severity === monaco.MarkerSeverity.Error);
+
+                    updateSaveButtonState(errorMarkers.length);
+                }
+            });
+
+            // Set up save functionality
+            setupSaveFunction();
+        });
+    }
+
+    function updateSaveButtonState(errorCount) {
+        const saveButton = document.getElementById('save-button');
+        const saveButtonText = document.getElementById('save-button-text');
+
+        if (errorCount > 0) {
+            // There are errors - disable save button and show error count
+            saveButton.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+            saveButton.classList.add('bg-red-600', 'hover:bg-red-700', 'cursor-not-allowed');
+            saveButtonText.textContent = `${errorCount} Error${errorCount > 1 ? 's' : ''} - Cannot Save`;
+            isValid = false;
+        } else {
+            // No errors - enable save button
+            saveButton.classList.remove('bg-red-600', 'hover:bg-red-700', 'cursor-not-allowed');
+            saveButton.classList.add('bg-blue-600', 'hover:bg-blue-700');
+            saveButtonText.textContent = 'Save (Ctrl+S)';
+            isValid = true;
+        }
+    }
+
+    function setupSaveFunction() {
+        // Save button click handler
+        document.getElementById('save-button').addEventListener('click', saveFile);
+
+        // Keyboard shortcut (Ctrl+S)
+        window.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                saveFile();
+            }
+        });
+    }
+
+    async function saveFile() {
+        if (isSaving || !editor || !isValid) return;
+
+        // Check if JSON is valid (no syntax errors)
+        try {
+            JSON.parse(editor.getValue());
+        } catch (e) {
+            showSaveIndicator('error', 'Invalid JSON syntax');
+            return;
+        }
+
+        isSaving = true;
+        showSaveIndicator('saving');
+
+        try {
+            const response = await fetch(`/update_file?id=${fileId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: editor.getValue()
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                showSaveIndicator('success');
+            } else {
+                showSaveIndicator('error', result.errorMessage || 'Failed to save');
+            }
+        } catch (error) {
+            console.error("Save error:", error);
+            showSaveIndicator('error', 'Network error');
+        } finally {
+            isSaving = false;
+        }
+    }
+
+    function showSaveIndicator(status, message = null) {
+        const indicator = document.getElementById('save-indicator');
+        const indicatorText = document.getElementById('save-indicator-text');
+
+        // Reset classes
+        indicator.classList.remove('text-green-400', 'text-yellow-400', 'text-red-500');
+        indicator.style.opacity = '1';
+
+        // Update based on status
+        switch (status) {
+            case 'saving':
+                indicator.innerHTML = `
+                        <svg class="animate-spin h-4 w-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span id="save-indicator-text">Saving...</span>
+                    `;
+                indicator.classList.add('text-yellow-400');
+                break;
+
+            case 'success':
+                indicator.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span id="save-indicator-text">Saved</span>
+                    `;
+                indicator.classList.add('text-green-400');
+
+                // Hide after 3 seconds
+                setTimeout(() => {
+                    indicator.style.opacity = '0';
+                }, 3000);
+                break;
+
+            case 'error':
+                indicator.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span id="save-indicator-text">${message || 'Error saving'}</span>
+                    `;
+                indicator.classList.add('text-red-500');
+
+                // Hide after 5 seconds
+                setTimeout(() => {
+                    indicator.style.opacity = '0';
+                }, 5000);
+                break;
+        }
+    }
+</script>
+</body>
+</html>

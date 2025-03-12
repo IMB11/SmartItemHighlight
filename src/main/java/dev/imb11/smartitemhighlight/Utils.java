@@ -1,15 +1,21 @@
 package dev.imb11.smartitemhighlight;
 
 import com.google.gson.JsonObject;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.network.chat.FormattedText;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 
+import java.util.Iterator;
+import java.util.Objects;
 import java.util.function.Function;
 import static java.lang.Math.*;
 
 import java.util.Optional;
 
+// TODO: Move all of this to MRU!!
 public class Utils {
     public static void renderTexture(GuiGraphics drawContext, ResourceLocation texture, int x, int y, int textureWidth, int textureHeight) {
         //? 1.21 {
@@ -35,6 +41,14 @@ public class Utils {
         return object.filter(jsonObject -> jsonObject.has(fieldName))
                 .map(jsonObject -> jsonObject.get(fieldName).getAsString())
                 .orElse(defaultValue);
+    }
+
+    public static void drawTextWrapped(GuiGraphics context, Font textRenderer, FormattedText text, int x, int y, int width, int color) {
+        for(Iterator<FormattedCharSequence> var7 = textRenderer.split(text, width).iterator(); var7.hasNext(); y += 9) {
+            FormattedCharSequence orderedText = var7.next();
+            context.drawString(textRenderer, orderedText, x, y, color, false);
+            Objects.requireNonNull(textRenderer);
+        }
     }
 
     // https://easings.net/

@@ -22,7 +22,13 @@ import java.util.ArrayList;
 public class ConditionCardWidget extends AbstractWidget {
     private final int fakeWidth;
     private final int fakeHeight;
-    private final ItemStack randomStack;
+
+    public int getInitialY() {
+        return initialY;
+    }
+
+    private final int initialY;
+    private ItemStack randomStack;
     private final RenderFunction renderFunction;
 
     public HighlightCondition getCondition() {
@@ -36,12 +42,13 @@ public class ConditionCardWidget extends AbstractWidget {
     private final HighlightCondition condition;
     private final ArrayList<AbstractWidget> connectedWidgets;
 
-    public ConditionCardWidget(int x, int y, HighlightCondition condition) {
+    public ConditionCardWidget(int x, int y, int cardWidth, int cardHeight, HighlightCondition condition) {
         super(x, y, 1, 1, Component.empty());
+        this.initialY = y;
         this.condition = condition;
         this.connectedWidgets = new ArrayList<>();
-        this.fakeWidth = 332;
-        this.fakeHeight = 65;
+        this.fakeWidth = cardWidth;
+        this.fakeHeight = cardHeight;
         this.randomStack = new ItemStack(BuiltInRegistries.ITEM.getRandom(Minecraft.getInstance().font.random).get());
         this.renderFunction = RenderFunction.RENDER_FUNCTION_REGISTRY.getOrDefault(this.condition.getRenderFunction(), RenderFunction.NONE);
     }
@@ -73,7 +80,7 @@ public class ConditionCardWidget extends AbstractWidget {
     @Override
     protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         var font = Minecraft.getInstance().font;
-        graphics.fill(this.getX(), this.getY(), this.getX() + this.fakeWidth, this.getY() + this.fakeHeight, 0x7F000000);
+        graphics.fill(this.getX(), this.getY(), this.getX() + this.fakeWidth, this.getY() + this.fakeHeight, 0x0F000000);
         graphics.renderOutline(this.getX(), this.getY(), this.fakeWidth, this.fakeHeight, 0x7F000000);
         String name = condition.getFileID() + ".json";
         graphics.drawString(font, name, this.getX() + 13, this.getY() + 9, 0xFFFFFF, false);
@@ -102,5 +109,9 @@ public class ConditionCardWidget extends AbstractWidget {
     @Override
     protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
 
+    }
+
+    public void randomizeStack() {
+        this.randomStack = new ItemStack(BuiltInRegistries.ITEM.getRandom(Minecraft.getInstance().font.random).get());
     }
 }

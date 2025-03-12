@@ -1,0 +1,340 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HighlightCondition",
+  "markdownDescription": "Defines the conditions to determine when items are highlighted.",
+  "oneOf": [
+    {
+      "title": "DurabilityCondition",
+      "markdownDescription": "Highlights an item based on its durability value.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/CommonProperties"
+        },
+        {
+          "type": "object",
+          "markdownDescription": "Configures a condition that uses durability levels.",
+          "properties": {
+            "type": {
+              "allOf": [
+                { "$ref": "#/definitions/HighlightConditionType" },
+                {
+                  "const": "smartitemhighlight:durability",
+                  "title": "DurabilityCondition",
+                  "markdownDescription": "Specifies that this condition uses an item\\'s durability."
+                }
+              ]
+            },
+            "durabilityLevel": {
+              "type": "integer",
+              "markdownDescription": "The durability threshold for the condition."
+            },
+            "comparisonType": {
+              "$ref": "#/definitions/ComparisonType",
+              "markdownDescription": "Determines how the durability is compared to the threshold."
+            }
+          },
+          "required": [
+            "type",
+            "durabilityLevel",
+            "comparisonType"
+          ],
+          "additionalProperties": true
+        }
+      ]
+    },
+    {
+      "title": "FoodCondition",
+      "markdownDescription": "Highlights food items based on nutritional and saturation values.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/CommonProperties"
+        },
+        {
+          "type": "object",
+          "markdownDescription": "Configures a condition for food items.",
+          "properties": {
+            "type": {
+              "allOf": [
+                { "$ref": "#/definitions/HighlightConditionType" },
+                {
+                  "const": "smartitemhighlight:food",
+                  "title": "FoodCondition",
+                  "markdownDescription": "Specifies that this condition applies to food items."
+                }
+              ]
+            },
+            "nutrition": {
+              "type": "integer",
+              "minimum": 0,
+              "markdownDescription": "The nutrition value to evaluate."
+            },
+            "nutrition_comparison_type": {
+              "$ref": "#/definitions/ComparisonType",
+              "markdownDescription": "The comparison method for the nutrition value."
+            },
+            "saturation": {
+              "type": "number",
+              "markdownDescription": "The saturation level to evaluate."
+            },
+            "saturation_comparison_type": {
+              "$ref": "#/definitions/ComparisonType",
+              "markdownDescription": "The comparison method for the saturation level."
+            },
+            "still_edible_if_full": {
+              "type": "boolean",
+              "markdownDescription": "Specifies if the food is still highlighted even if not needed."
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "additionalProperties": true
+        }
+      ]
+    },
+    {
+      "title": "JavaCondition",
+      "markdownDescription": "Highlights an item based on a custom trigger.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/CommonProperties"
+        },
+        {
+          "type": "object",
+          "markdownDescription": "Configures a custom condition with a trigger identifier.",
+          "properties": {
+            "type": {
+              "allOf": [
+                { "$ref": "#/definitions/HighlightConditionType" },
+                {
+                  "const": "smartitemhighlight:java_triggered",
+                  "title": "JavaCondition",
+                  "markdownDescription": "Specifies that this is a custom triggered condition."
+                }
+              ]
+            },
+            "trigger_id": {
+              "type": "string",
+              "markdownDescription": "A resource location string used to trigger this condition."
+            },
+            "sub_condition": {
+              "$ref": "#",
+              "markdownDescription": "A nested condition that supplements this trigger."
+            }
+          },
+          "required": [
+            "type",
+            "trigger_id",
+            "sub_condition"
+          ],
+          "additionalProperties": true
+        }
+      ]
+    },
+    {
+      "title": "PickupCondition",
+      "markdownDescription": "Highlights an item based on how long it has been in inventory.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/CommonProperties"
+        },
+        {
+          "type": "object",
+          "markdownDescription": "Configures a condition that uses inventory time.",
+          "properties": {
+            "type": {
+              "allOf": [
+                { "$ref": "#/definitions/HighlightConditionType" },
+                {
+                  "const": "smartitemhighlight:pickup",
+                  "title": "PickupCondition",
+                  "markdownDescription": "Specifies that this condition is triggered by picking up an item."
+                }
+              ]
+            },
+            "inventoryTime": {
+              "type": "integer",
+              "markdownDescription": "The time (in seconds) the item has been in inventory."
+            },
+            "comparisonType": {
+              "$ref": "#/definitions/ComparisonType",
+              "markdownDescription": "Determines how the inventory time is compared to the threshold."
+            }
+          },
+          "required": [
+            "type",
+            "inventoryTime",
+            "comparisonType"
+          ],
+          "additionalProperties": true
+        }
+      ]
+    },
+    {
+      "title": "PlainItemCondition",
+      "markdownDescription": "Highlights an item based on matching item identifiers or tags.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/CommonProperties"
+        },
+        {
+          "type": "object",
+          "markdownDescription": "Configures a condition that matches a list of item identifiers or tags.",
+          "properties": {
+            "type": {
+              "allOf": [
+                { "$ref": "#/definitions/HighlightConditionType" },
+                {
+                  "const": "smartitemhighlight:matches_item",
+                  "title": "PlainItemCondition",
+                  "markdownDescription": "Specifies that this condition matches items against a list."
+                }
+              ]
+            },
+            "items": {
+              "type": "array",
+              "markdownDescription": "A list of item identifiers or tags to match.",
+              "items": {
+                "type": "string",
+                "markdownDescription": "A single item identifier or tag."
+              }
+            }
+          },
+          "required": [
+            "type",
+            "items"
+          ],
+          "additionalProperties": true
+        }
+      ]
+    },
+    {
+      "title": "EnchantmentCondition",
+      "markdownDescription": "Highlights an item based on its enchantments.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/CommonProperties"
+        },
+        {
+          "type": "object",
+          "markdownDescription": "Configures a condition that evaluates an item\\'s enchantment and level.",
+          "properties": {
+            "type": {
+              "allOf": [
+                { "$ref": "#/definitions/HighlightConditionType" },
+                {
+                  "const": "smartitemhighlight:enchantment",
+                  "title": "EnchantmentCondition",
+                  "markdownDescription": "Specifies that this condition is based on an item\\'s enchantments."
+                }
+              ]
+            },
+            "enchantment": {
+              "type": "string",
+              "markdownDescription": "A resource location string representing the enchantment."
+            },
+            "level": {
+              "type": "integer",
+              "markdownDescription": "The level of the enchantment to evaluate."
+            },
+            "comparisonType": {
+              "$ref": "#/definitions/ComparisonType",
+              "markdownDescription": "Determines how the enchantment level is compared."
+            }
+          },
+          "required": [
+            "type",
+            "enchantment"
+          ],
+          "additionalProperties": true
+        }
+      ]
+    },
+    {
+      "title": "UnknownCondition",
+      "markdownDescription": "Used for unrecognized or custom highlight conditions.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/CommonProperties"
+        },
+        {
+          "type": "object",
+          "markdownDescription": "A fallback condition for unsupported types.",
+          "additionalProperties": true
+        }
+      ]
+    }
+  ],
+  "definitions": {
+    "ComparisonType": {
+      "type": "string",
+      "markdownDescription": "Specifies the method for comparing values.",
+      "enum": [
+        "EQUAL",
+        "NOT_EQUAL",
+        "GREATER_THAN",
+        "LESS_THAN",
+        "GREATER_THAN_EQUAL_TO",
+        "LESS_THAN_EQUAL_TO"
+      ]
+    },
+    "CommonProperties": {
+      "type": "object",
+      "markdownDescription": "Contains common properties for all highlight conditions.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "markdownDescription": "Indicates whether the condition is active."
+        },
+        "renderFunction": {
+          "type": "string",
+          "markdownDescription": "Specifies the function used to render the highlight."
+        },
+        "renderOptions": {
+          "type": "object",
+          "markdownDescription": "Optional parameters to customize the highlight.",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "enabled",
+        "renderFunction"
+      ]
+    },
+    "HighlightConditionType": {
+      "markdownDescription": "Available highlight condition types.",
+      "anyOf": [
+        {
+          "const": "smartitemhighlight:durability",
+          "title": "DurabilityCondition",
+          "markdownDescription": "Specifies that this condition uses an item\\'s durability."
+        },
+        {
+          "const": "smartitemhighlight:food",
+          "title": "FoodCondition",
+          "markdownDescription": "Specifies that this condition applies to food items."
+        },
+        {
+          "const": "smartitemhighlight:java_triggered",
+          "title": "JavaCondition",
+          "markdownDescription": "Specifies that this is a custom triggered condition."
+        },
+        {
+          "const": "smartitemhighlight:pickup",
+          "title": "PickupCondition",
+          "markdownDescription": "Specifies that this condition is triggered by picking up an item."
+        },
+        {
+          "const": "smartitemhighlight:matches_item",
+          "title": "PlainItemCondition",
+          "markdownDescription": "Specifies that this condition matches items against a list."
+        },
+        {
+          "const": "smartitemhighlight:enchantment",
+          "title": "EnchantmentCondition",
+          "markdownDescription": "Specifies that this condition is based on an item\\'s enchantments."
+        }
+      ]
+    }
+  }
+}

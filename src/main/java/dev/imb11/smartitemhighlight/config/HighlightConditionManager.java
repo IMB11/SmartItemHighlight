@@ -39,12 +39,21 @@ public class HighlightConditionManager {
         return LOADED_CONDITIONS;
     }
 
+    public static String getRawFile(String id) throws IOException {
+        Path filePath = CONDITIONS_PATH.resolve(id + ".json");
+        return Files.readString(filePath, StandardCharsets.UTF_16);
+    }
+
     private static ArrayList<HighlightCondition> LOADED_CONDITIONS = new ArrayList<>();
 
     private static HighlightCondition readFromFile(Path filePath) throws IOException {
         JsonElement element = GSON.fromJson(Files.readString(filePath, StandardCharsets.UTF_16), JsonElement.class);
         DataResult<HighlightCondition> conditionDataResult = HighlightCondition.CODEC.parse(JsonOps.INSTANCE, element);
-        return conditionDataResult.getOrThrow();
+        var result = conditionDataResult.getOrThrow();
+        if (element.getAsJsonObject().has("renderOptions")) {
+            result.setRenderOptions(element.getAsJsonObject().getAsJsonObject("renderOptions"));
+        }
+        return result;
     }
 
     private static void writeToFile(Path filePath, HighlightCondition condition) throws IOException {

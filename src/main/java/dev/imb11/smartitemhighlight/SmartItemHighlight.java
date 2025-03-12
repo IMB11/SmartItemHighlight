@@ -1,5 +1,6 @@
 package dev.imb11.smartitemhighlight;
 
+import dev.imb11.mru.API;
 import dev.imb11.mru.LoaderUtils;
 import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
 import dev.imb11.smartitemhighlight.api.condition.builtin.*;
@@ -10,29 +11,30 @@ import dev.imb11.smartitemhighlight.api.render.builtin.PulseSlotOutlineRenderFun
 import dev.imb11.smartitemhighlight.api.render.builtin.SlotOutlineRenderFunction;
 import dev.imb11.smartitemhighlight.api.render.builtin.StarRenderFunction;
 import dev.imb11.smartitemhighlight.config.HighlightConditionManager;
+import dev.imb11.smartitemhighlight.config.editor.EditorServer;
+import net.minecraft.Util;
 import net.minecraft.client.multiplayer.ClientLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import net.minecraft.resources.ResourceLocation;
+import spark.Spark;
 
 public class SmartItemHighlight {
     public static final String MOD_ID = "smartitemhighlight";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static final Path CONFIG_FOLDER = LoaderUtils.getConfigFolder(MOD_ID);
+    private static final ExecutorService HTTP_EXECUTOR = Executors.newSingleThreadExecutor();
 
-    private static Path getConfigFolder() {
-        Path currentPath = Paths.get("").toAbsolutePath();
-        while (!currentPath.endsWith("SmartItemHighlight") && !currentPath.getRoot().equals(currentPath))
-            currentPath = currentPath.resolve("../").normalize();
-        if (currentPath.resolve("LocalFile.txt").toFile().exists())
-            return currentPath.resolve("run/config/smartitemhighlight");
-        return LoaderUtils.getConfigFolder(MOD_ID);
-    }
-
-    public static final Path CONFIG_FOLDER = getConfigFolder();
+    public static String[] SUPPORTERS = new String[] {
+            "You have no internet.",
+            "Unable to gather supporters."
+    };
 
     public static void initialize() {
         ItemHighlightEvents.RENDER_HIGHLIGHT.register(((drawContext, livingEntity, world, stack, x, y, seed, z) -> {
@@ -61,6 +63,19 @@ public class SmartItemHighlight {
 //        RenderFunction.RENDER_FUNCTION_REGISTRY.put(OutlineRenderFunction.ID, new OutlineRenderFunction());
 
         HighlightConditionManager.load();
+        HTTP_EXECUTOR.submit(EditorServer::setup);
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            Spark.stop();
+            HTTP_EXECUTOR.shutdown();
+            LOGGER.info("Web server stopped gracefully.");
+        }));
+
+        CompletableFuture.runAsync(() -> {
+            try {
+                API apiClient = new API();
+                SUPPORTERS = apiClient.getKofiSupporters();
+            } catch (Exception ignored) {}
+        }, Util.nonCriticalIoPool());
     }
 
     public static ResourceLocation loc(String path) {
