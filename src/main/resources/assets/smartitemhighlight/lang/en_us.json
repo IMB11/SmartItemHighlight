@@ -1,8 +1,25 @@
-{  "highlight.delete.fail": "Deletion Failed",
-"highlight.delete.fail.msg": "SmartItemHighlight failed to delete the condition due to a file system error.",
-"highlight.disable_update_file.fail": "Failed To Save Condition",
-"highlight.disable_update_file.fail.msg": "When toggling this condition, SmartItemHighlight failed to save the new condition data, as a result it may not be enabled/disabled when the game restarts.",
-"highlight.enabled": "Enabled",
-"highlight.disabled": "Disabled"
-
+{
+  "highlight.delete.fail": "Deletion Failed",
+  "highlight.delete.fail.msg": "SmartItemHighlight failed to delete the condition due to a file system error.",
+  "highlight.disable_update_file.fail": "Failed To Save Condition",
+  "highlight.disable_update_file.fail.msg": "When toggling this condition, SmartItemHighlight failed to save the new condition data, as a result it may not be enabled/disabled when the game restarts.",
+  "highlight.enabled": "Enabled",
+  "highlight.disabled": "Disabled",
+  "config.edit_button": "Edit",
+  "config.edit_description": "Edit this highlight condition.",
+  "config.delete_button": "Delete",
+  "config.delete_description": "Delete this highlight condition.",
+  "config.create_button": "Create",
+  "config.create_description": "Create a new item highlight condition.",
+  "config.create_fail_1": "Failed to create condition",
+  "config.create_fail_2": "Could not save the new condition.",
+  "config.refresh_button": "Refresh",
+  "config.refresh_description": "Refresh the preview stacks.",
+  "config.done_button": "Done",
+  "config.done_description": "Return to the main screen.",
+  "config.discord_button": "Discord",
+  "config.discord_description": "Join the Discord server!",
+  "config.kofi_button": "Ko-Fi",
+  "config.kofi_description": "Support me on KoFi!",
+  "config.supporter_message": " supports me on Ko-Fi!"
 }

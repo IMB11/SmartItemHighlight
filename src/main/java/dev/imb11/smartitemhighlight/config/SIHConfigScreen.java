@@ -78,12 +78,12 @@ public class SIHConfigScreen extends Screen {
                     cardY + 42,
                     79,
                     16,
-                    Component.literal("Edit"),
+                    Component.translatable("config.edit_button"),
                     button -> {
                         Util.getPlatform().openUri("http://localhost:" + EditorServer.PORT + "/?id=" + condition.getFileID());
                     },
                     t -> {
-                        return Component.literal("Edit this highlight condition.");
+                        return Component.translatable("config.edit_description");
                     }
             ));
 
@@ -122,7 +122,7 @@ public class SIHConfigScreen extends Screen {
                     cardY + 42,
                     79,
                     16,
-                    Component.literal("Delete"),
+                    Component.translatable("config.delete_button"),
                     button -> {
                         boolean success = HighlightConditionManager.delete(card.getCondition());
                         if (!success) {
@@ -134,7 +134,7 @@ public class SIHConfigScreen extends Screen {
                         this.minecraft.setScreen(new SIHConfigScreen(this.parent));
                     },
                     (t) -> {
-                        return Component.literal("Delete this highlight condition.");
+                        return Component.translatable("config.delete_description");
                     }
             ));
 
@@ -160,7 +160,7 @@ public class SIHConfigScreen extends Screen {
                 topButtonsY,
                 buttonWidth,
                 buttonHeight,
-                Component.literal("Create"),
+                Component.translatable("config.create_button"),
                 button -> {
                     PlainItemCondition newCondition = new PlainItemCondition(
                             false,
@@ -176,14 +176,14 @@ public class SIHConfigScreen extends Screen {
                         HighlightConditionManager.save(newCondition);
                     } catch (IOException e) {
                         SystemToast.add(this.minecraft.getToastManager(), SystemToast.SystemToastId.LOW_DISK_SPACE,
-                                Component.literal("Failed to create condition"),
-                                Component.literal("Could not save the new condition."));
+                                Component.translatable("config.create_fail_1"),
+                                Component.translatable("config.create_fail_2"));
                         return;
                     }
                     this.minecraft.setScreen(new SIHConfigScreen(this.parent));
                 },
                 (t) -> {
-                    return Component.literal("Create a new item highlight condition.");
+                    return Component.translatable("config.create_description");
                 }
         ));
 
@@ -192,11 +192,11 @@ public class SIHConfigScreen extends Screen {
                 topButtonsY,
                 buttonWidth,
                 buttonHeight,
-                Component.literal("Refresh"),
+                Component.translatable("config.refresh_button"),
                 button -> {
                     this.cards.forEach(ConditionCardWidget::randomizeStack);
                 },
-                (t) -> Component.literal("Refresh the preview stacks.")
+                (t) -> Component.translatable("config.refresh_description")
         ));
 
         // Done button:
@@ -205,12 +205,12 @@ public class SIHConfigScreen extends Screen {
                 this.height - 30,
                 buttonWidth,
                 buttonHeight,
-                Component.literal("Done"),
+                Component.translatable("config.done_button"),
                 button -> {
                     this.minecraft.setScreen(parent);
                 },
                 (t) -> {
-                    return Component.literal("Return to the main screen.");
+                    return Component.translatable("config.done_description");
                 }
         ));
 
@@ -220,12 +220,12 @@ public class SIHConfigScreen extends Screen {
                 this.height - 55,
                 buttonWidth,
                 buttonHeight,
-                Component.literal("Discord"),
+                Component.translatable("config.discord_button"),
                 button -> {
                     Util.getPlatform().openUri("https://discord.imb11.dev/");
                 },
                 (t) -> {
-                    return Component.literal("Join the Discord server!");
+                    return Component.translatable("config.discord_description");
                 }
         ));
 
@@ -235,12 +235,12 @@ public class SIHConfigScreen extends Screen {
                 this.height - 80,
                 buttonWidth,
                 buttonHeight,
-                Component.literal("Ko-Fi"),
+                Component.translatable("config.kofi_button"),
                 button -> {
                     Util.getPlatform().openUri("https://ko-fi.com/imb11");
                 },
                 (t) -> {
-                    return Component.literal("Support me on KoFi!");
+                    return Component.translatable("config.kofi_description");
                 }
         ));
 
@@ -277,21 +277,21 @@ public class SIHConfigScreen extends Screen {
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
         this.renderBackground(graphics, mouseX, mouseY, delta);
 
-        for(Renderable renderable : ((ScreenAccessorMixin) this).getRenderables()) {
+        for (Renderable renderable : ((ScreenAccessorMixin) this).getRenderables()) {
             if (cards.contains(renderable) || !cards.stream().filter(card -> card.getConnectedWidgets().contains(renderable)).toList().isEmpty()) {
                 continue;
             }
             renderable.render(graphics, mouseX, mouseY, delta);
         }
 
-        if(timeSinceLastSupporter == -1) {
+        if (timeSinceLastSupporter == -1) {
             timeSinceLastSupporter = Util.getMillis();
             supporterIndex = 0;
         }
 
-        if(timeSinceLastSupporter + 2000 < Util.getMillis()) {
+        if (timeSinceLastSupporter + 2000 < Util.getMillis()) {
             supporterIndex++;
-            if(supporterIndex >= SmartItemHighlight.SUPPORTERS.length) {
+            if (supporterIndex >= SmartItemHighlight.SUPPORTERS.length) {
                 supporterIndex = 0;
             }
             timeSinceLastSupporter = Util.getMillis();
@@ -300,13 +300,13 @@ public class SIHConfigScreen extends Screen {
         String supporter = SmartItemHighlight.SUPPORTERS[supporterIndex];
 
         float timePassed = (Util.getMillis() - timeSinceLastSupporter) / 2000f;
-        float fadeBetween = (Mth.sin(timePassed * (float)Math.PI) + 1) / 2;
-        if(fadeBetween < 0.01) {
+        float fadeBetween = (Mth.sin(timePassed * (float) Math.PI) + 1) / 2;
+        if (fadeBetween < 0.01) {
             fadeBetween = 0;
         }
         int alpha = (int) (fadeBetween * 255.0f);
         int color = (alpha << 24) | (0xFFFFFF);
-        Component text = Component.literal(supporter).withStyle(ChatFormatting.GOLD).append(Component.literal(" supports me on Ko-Fi!").withStyle(ChatFormatting.WHITE));
+        Component text = Component.literal(supporter).withStyle(ChatFormatting.GOLD).append(Component.translatable("config.supporter_message").withStyle(ChatFormatting.WHITE));
         int spaceBetween = (this.width / 2 - 40);
         int textTotalHeight = font.wordWrapHeight(text, spaceBetween - 20);
         int targetY = this.height - this.font.lineHeight - 2;
