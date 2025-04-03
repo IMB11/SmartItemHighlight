@@ -100,9 +100,10 @@ public class ConditionCardWidget extends AbstractWidget {
         //? if 1.21.4 {
         graphics.blit(RenderType::guiTexturedOverlay, inventoryTexture, (int) (x / sf), (int) (y / sf), u, v, uW, uH, 18, 18, 256, 256, 0xFFFFFFFF);
         //?}
+        renderFunction.render(this.condition, this.randomStack, 0, graphics, (int) ((x + 2) / sf), (int) ((y + 3) / sf), 25,false);
         graphics.renderItem(this.randomStack, (int) ((x + 2) / (sf)), (int) ((y + 3) / (sf)), 0, 25);
         graphics.pose().translate(0, 0, 500);
-        renderFunction.render(this.condition, this.randomStack, 0, graphics, (int) ((x + 2) / sf), (int) ((y + 3) / sf), 25);
+        renderFunction.render(this.condition, this.randomStack, 0, graphics, (int) ((x + 2) / sf), (int) ((y + 3) / sf), 25,true);
         graphics.pose().popPose();
     }
 

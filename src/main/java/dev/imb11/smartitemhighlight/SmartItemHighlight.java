@@ -37,14 +37,14 @@ public class SmartItemHighlight {
     };
 
     public static void initialize() {
-        ItemHighlightEvents.RENDER_HIGHLIGHT.register(((drawContext, livingEntity, world, stack, x, y, seed, z) -> {
+        ItemHighlightEvents.RENDER_HIGHLIGHT.register(((drawContext, livingEntity, world, stack, x, y, seed, z, hasRenderedItem) -> {
             for (HighlightCondition loadedCondition : HighlightConditionManager.getLoadedConditions()) {
                 if (loadedCondition.isEnabled())
                     if (loadedCondition.shouldHighlightStack((ClientLevel) world, stack)) {
                         ResourceLocation renderFunction = loadedCondition.getRenderFunction();
                         RenderFunction function = RenderFunction.RENDER_FUNCTION_REGISTRY.get(renderFunction);
                         if (function != null)
-                            function.render(loadedCondition, stack, seed, drawContext, x, y, z);
+                            function.render(loadedCondition, stack, seed, drawContext, x, y, z, hasRenderedItem);
                     }
             }
         }));
