@@ -1,8 +1,9 @@
 package dev.imb11.smartitemhighlight.api.render.builtin;
 
 import com.google.gson.JsonObject;
+import dev.imb11.mru.JSONUtils;
+import dev.imb11.mru.RenderUtils;
 import dev.imb11.smartitemhighlight.SmartItemHighlight;
-import dev.imb11.smartitemhighlight.Utils;
 import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
 import dev.imb11.smartitemhighlight.api.render.RenderFunction;
 import net.minecraft.client.gui.GuiGraphics;
@@ -23,7 +24,7 @@ public class PulseSlotOutlineRenderFunction implements RenderFunction {
                 "height", Integer.class,
                 "color", Color.class,
                 "speed", Integer.class,
-                "easing", Utils.Easing.class
+                "easing", RenderUtils.Easing.class
         );
     }
 
@@ -32,9 +33,9 @@ public class PulseSlotOutlineRenderFunction implements RenderFunction {
         Optional<JsonObject> renderOptions = condition.getRenderOptions();
 
         double time = System.currentTimeMillis() / 0.5D;
-        float pulseSpeed = Utils.getOrDefault(renderOptions, "speed", 5);
-        Utils.Easing easingType = Utils.Easing.valueOf(Utils.getOrDefault(renderOptions, "easing", Utils.Easing.easeInOutSine.name()));
-        int color = Utils.getOrDefault(renderOptions, "color", 0xFFFF0000);
+        float pulseSpeed = JSONUtils.getOrDefault(renderOptions, "speed", 5);
+        RenderUtils.Easing easingType = RenderUtils.Easing.valueOf(JSONUtils.getOrDefault(renderOptions, "easing", RenderUtils.Easing.easeInOutSine.name()));
+        int color = JSONUtils.getOrDefault(renderOptions, "color", 0xFFFF0000);
 
         double brightnessFactor = easingType.getFunction().apply(time * 0.0001 * pulseSpeed).doubleValue();
         int a = (int) (((color >> 24) & 0xFF) * brightnessFactor);
@@ -44,8 +45,8 @@ public class PulseSlotOutlineRenderFunction implements RenderFunction {
         color = (a << 24) | (r << 16) | (g << 8) | b;
 
         graphics.renderOutline(x, y,
-                Utils.getOrDefault(renderOptions, "width", 16),
-                Utils.getOrDefault(renderOptions, "height", 16),
+                JSONUtils.getOrDefault(renderOptions, "width", 16),
+                JSONUtils.getOrDefault(renderOptions, "height", 16),
                 color
         );
     }

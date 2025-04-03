@@ -1,8 +1,8 @@
 // File: SIHConfigScreen.java
 package dev.imb11.smartitemhighlight.config;
 
+import dev.imb11.mru.RenderUtils;
 import dev.imb11.smartitemhighlight.SmartItemHighlight;
-import dev.imb11.smartitemhighlight.Utils;
 import dev.imb11.smartitemhighlight.api.TagList;
 import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
 import dev.imb11.smartitemhighlight.api.condition.builtin.PlainItemCondition;
@@ -12,7 +12,6 @@ import dev.imb11.smartitemhighlight.mixins.ScreenAccessorMixin;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.screens.Screen;
@@ -104,7 +103,13 @@ public class SIHConfigScreen extends Screen {
                         try {
                             HighlightConditionManager.save(condition);
                         } catch (IOException e) {
-                            SystemToast.add(this.minecraft.getToastManager(), SystemToast.SystemToastId.LOW_DISK_SPACE,
+                            SystemToast.add(
+                                    //? if >1.21.1 {
+                                    this.minecraft.getToastManager(),
+                                    //?} else {
+                                    /*this.minecraft.getToasts(),
+                                    *///?}
+                                    SystemToast.SystemToastId.LOW_DISK_SPACE,
                                     Component.translatable("highlight.disable_update_file.fail"),
                                     Component.translatable("highlight.disable_update_file.fail.msg"));
                         }
@@ -116,7 +121,7 @@ public class SIHConfigScreen extends Screen {
                     }
             ));
 
-// Delete button:
+            // Delete button:
             card.addConnectedWidget(new GreyButton(
                     startX + 183,
                     cardY + 42,
@@ -126,7 +131,13 @@ public class SIHConfigScreen extends Screen {
                     button -> {
                         boolean success = HighlightConditionManager.delete(card.getCondition());
                         if (!success) {
-                            SystemToast.add(this.minecraft.getToastManager(), SystemToast.SystemToastId.LOW_DISK_SPACE,
+                            SystemToast.add(
+                                    //? if >1.21.1 {
+                                    this.minecraft.getToastManager(),
+                                    //?} else {
+                                    /*this.minecraft.getToasts(),
+                                    *///?}
+                                    SystemToast.SystemToastId.LOW_DISK_SPACE,
                                     Component.translatable("highlight.delete.fail"),
                                     Component.translatable("highlight.delete.fail.msg"));
                             return;
@@ -157,7 +168,7 @@ public class SIHConfigScreen extends Screen {
 
         this.addRenderableWidget(new GreyButton(
                 sideX,
-                topButtonsY,
+                topButtonsY + 25,
                 buttonWidth,
                 buttonHeight,
                 Component.translatable("config.create_button"),
@@ -175,9 +186,17 @@ public class SIHConfigScreen extends Screen {
                     try {
                         HighlightConditionManager.save(newCondition);
                     } catch (IOException e) {
-                        SystemToast.add(this.minecraft.getToastManager(), SystemToast.SystemToastId.LOW_DISK_SPACE,
+
+                        SystemToast.add(
+                                //? if >1.21.1 {
+                                this.minecraft.getToastManager(),
+                                //?} else {
+                                /*this.minecraft.getToasts(),
+                                *///?}
+                                SystemToast.SystemToastId.LOW_DISK_SPACE,
                                 Component.translatable("config.create_fail_1"),
                                 Component.translatable("config.create_fail_2"));
+
                         return;
                     }
                     this.minecraft.setScreen(new SIHConfigScreen(this.parent));
@@ -312,13 +331,13 @@ public class SIHConfigScreen extends Screen {
         int targetY = this.height - this.font.lineHeight - 2;
         int textY = targetY - (textTotalHeight / 2);
 
-        Utils.drawTextWrapped(graphics, font, text, 5, textY, this.sideX - 10, color);
+        RenderUtils.drawTextWrapped(graphics, font, text, 5, textY, this.sideX - 10, color);
 
         // Render the mod icon
         ResourceLocation modIcon = SmartItemHighlight.loc("icon.png");
         // render it centered if texSize = 64 but the sidebar button width is greater than 64
         int iconX = this.sidebarButtonWidth > 64 ? this.sidebarButtonWidth / 2 - 32 : 0;
-        Utils.renderTexture(graphics, modIcon, sideX + iconX, 5, this.texSize, this.texSize);
+        RenderUtils.renderTexture(graphics, modIcon, sideX + iconX, 5, this.texSize, this.texSize);
         graphics.renderOutline(sideX + iconX, 5, this.texSize, this.texSize, 0x7FFFFFFF);
 
         graphics.enableScissor(0, 0, this.sideX, this.height - this.font.lineHeight - 2 - 15);

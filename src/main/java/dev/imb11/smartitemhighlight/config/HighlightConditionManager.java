@@ -8,8 +8,9 @@ import dev.imb11.smartitemhighlight.SmartItemHighlight;
 import dev.imb11.smartitemhighlight.api.TagList;
 import dev.imb11.smartitemhighlight.api.condition.ComparisonType;
 import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
-import dev.imb11.smartitemhighlight.api.condition.builtin.EnchantmentCondition;
-import dev.imb11.smartitemhighlight.api.condition.builtin.PlainItemCondition;
+import dev.imb11.smartitemhighlight.api.condition.builtin.*;
+import dev.imb11.smartitemhighlight.api.render.builtin.DefaultRenderFunction;
+import dev.imb11.smartitemhighlight.api.render.builtin.SlotOutlineRenderFunction;
 import dev.imb11.smartitemhighlight.api.render.builtin.StarRenderFunction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -70,11 +71,16 @@ public class HighlightConditionManager {
 
             writeToFile(examplesFolder.resolve("example_enchantment_condition.json"), new EnchantmentCondition(true, ResourceLocation.fromNamespaceAndPath(SmartItemHighlight.MOD_ID, "default"),
                     Enchantments.EFFICIENCY.location(), Optional.of(1), Optional.of(ComparisonType.EQUAL)));
-            writeToFile(examplesFolder.resolve("example_plain_item_condition.json"), new PlainItemCondition(true, StarRenderFunction.ID, new TagList<>(List.of(
+            var pic = new PlainItemCondition(true, StarRenderFunction.ID, new TagList<>(List.of(
                     TagList.ofTag(ItemTags.AXES),
                     TagList.ofObj(Items.COOKED_BEEF, BuiltInRegistries.ITEM)
-            ))));
-
+            )));
+            writeToFile(examplesFolder.resolve("example_plain_item_condition.json"), pic);
+            writeToFile(examplesFolder.resolve("example_durability_condition.json"), new DurabilityCondition(true, SlotOutlineRenderFunction.ID, 200, ComparisonType.EQUAL));
+            writeToFile(examplesFolder.resolve("example_food_condition.json"), new FoodCondition(true, DefaultRenderFunction.ID, Optional.of(3), Optional.of(ComparisonType.GREATER_THAN), Optional.of(20.0f), Optional.of(ComparisonType.LESS_THAN), Optional.of(true)));
+            writeToFile(examplesFolder.resolve("example_java_condition.json"), new JavaCondition(true, DefaultRenderFunction.ID, SmartItemHighlight.loc("test_trigger"), pic));
+            writeToFile(examplesFolder.resolve("example_pickup_condition.json"), new PickupCondition(true, StarRenderFunction.ID, 2 * 60 * 20, ComparisonType.LESS_THAN));
+            writeToFile(CONDITIONS_PATH.resolve("newly_picked_up_item.json"), new PickupCondition(true, StarRenderFunction.ID, 2 * 60 * 20, ComparisonType.LESS_THAN));
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }

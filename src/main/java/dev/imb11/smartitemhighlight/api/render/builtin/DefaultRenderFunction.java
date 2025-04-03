@@ -1,8 +1,8 @@
 package dev.imb11.smartitemhighlight.api.render.builtin;
 
 import com.google.gson.JsonObject;
+import dev.imb11.mru.JSONUtils;
 import dev.imb11.smartitemhighlight.SmartItemHighlight;
-import dev.imb11.smartitemhighlight.Utils;
 import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
 import dev.imb11.smartitemhighlight.api.render.RenderFunction;
 import net.minecraft.client.gui.GuiGraphics;
@@ -31,8 +31,8 @@ public class DefaultRenderFunction implements RenderFunction {
         Optional<JsonObject> renderOptions = condition.getRenderOptions();
 
         graphics.fill(RenderType.gui(), x, y,
-                Utils.getOrDefault(renderOptions, "width", 16) + x,
-                Utils.getOrDefault(renderOptions, "height", 16) + y,
-                Utils.getOrDefault(renderOptions, "color", Integer.MAX_VALUE));
+                JSONUtils.getOrDefault(renderOptions, "width", 16) + x,
+                JSONUtils.getOrDefault(renderOptions, "height", 16) + y,
+                JSONUtils.getOrDefault(renderOptions, "color", Integer.MAX_VALUE));
     }
 }

@@ -79,7 +79,7 @@ public class EditorServer {
                 return new UpdateFileResponse(false, e.toString());
             }
 
-            return new UpdateFileResponse(true, null);
+            return GSON.toJson(new UpdateFileResponse(true, null));
         });
     }
 }

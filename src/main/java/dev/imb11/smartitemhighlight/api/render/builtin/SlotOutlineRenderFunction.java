@@ -1,8 +1,8 @@
 package dev.imb11.smartitemhighlight.api.render.builtin;
 
 import com.google.gson.JsonObject;
+import dev.imb11.mru.JSONUtils;
 import dev.imb11.smartitemhighlight.SmartItemHighlight;
-import dev.imb11.smartitemhighlight.Utils;
 import dev.imb11.smartitemhighlight.api.condition.HighlightCondition;
 import dev.imb11.smartitemhighlight.api.render.RenderFunction;
 import net.minecraft.client.gui.GuiGraphics;
@@ -30,9 +30,9 @@ public class SlotOutlineRenderFunction implements RenderFunction {
         Optional<JsonObject> renderOptions = condition.getRenderOptions();
 
         graphics.renderOutline(x, y,
-                Utils.getOrDefault(renderOptions, "width", 16),
-                Utils.getOrDefault(renderOptions, "height", 16),
-                Utils.getOrDefault(renderOptions, "color", 0xFFFF0000)
+                JSONUtils.getOrDefault(renderOptions, "width", 16),
+                JSONUtils.getOrDefault(renderOptions, "height", 16),
+                JSONUtils.getOrDefault(renderOptions, "color", 0xFFFF0000)
         );
     }
 }

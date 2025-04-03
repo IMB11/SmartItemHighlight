@@ -2,7 +2,17 @@
 
 Smartly highlight items in your inventory based on their properties such as enchantments, various components or even if you've recently picked it up.
 
-WIP.
+By default, Smart Item Highlight will only highlight items if they've been recently picked up, mimicking the logic of the existing [Item Highlighter](https://modrinth.com/mod/item-highlighter) mod. You can however access the configuration screen of Smart Item Highlight via Mod Menu or the mods list on NeoForge to create new highlight conditions.
+
+## Highlight Conditions
+
+Highlight Conditions are incredibly powerful, they allow you to highlight items in your inventory based on a range of conditions. There are tons of examples in the `/config/smartitemhighlight/conditions/examples` folder of your game instance. Easily configure them via the configuration screen:
+
+
+
+## Render Functions
+
+When an item can be highlighted in the inventory the highlight condition's render function will be called, these render functions are highly configurable, simply provide a `renderFunctionOptions`
 
 ## Contributing
 
