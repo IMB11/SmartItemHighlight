@@ -16,7 +16,14 @@ public class HighlightItemMixin {
             method = "renderItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;IIII)V",
             at = @At("HEAD")
     )
-    private void renderItem(LivingEntity entity, Level level, ItemStack stack, int x, int y, int seed, int guiOffset, CallbackInfo ci) {
-        ItemHighlightEvents.RENDER_HIGHLIGHT.invoker.apply(((GuiGraphics) (Object) this), entity, level, stack, x, y, seed, guiOffset);
+    private void renderItemBefore(LivingEntity entity, Level level, ItemStack stack, int x, int y, int seed, int guiOffset, CallbackInfo ci) {
+        ItemHighlightEvents.RENDER_HIGHLIGHT.invoker.apply(((GuiGraphics) (Object) this), entity, level, stack, x, y, seed, guiOffset, false);
+    }
+    @Inject(
+            method = "renderItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;IIII)V",
+            at = @At("TAIL")
+    )
+    private void renderItemAfter(LivingEntity entity, Level level, ItemStack stack, int x, int y, int seed, int guiOffset, CallbackInfo ci) {
+        ItemHighlightEvents.RENDER_HIGHLIGHT.invoker.apply(((GuiGraphics) (Object) this), entity, level, stack, x, y, seed, guiOffset, true);
     }
 }

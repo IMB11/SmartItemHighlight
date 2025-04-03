@@ -29,7 +29,9 @@ public class PulseSlotOutlineRenderFunction implements RenderFunction {
     }
 
     @Override
-    public void render(HighlightCondition condition, ItemStack stack, int seed, GuiGraphics graphics, int x, int y, int z) {
+    public void render(HighlightCondition condition, ItemStack stack, int seed, GuiGraphics graphics, int x, int y, int z, boolean hasRenderedItem) {
+        if (hasRenderedItem) return;
+
         Optional<JsonObject> renderOptions = condition.getRenderOptions();
 
         double time = System.currentTimeMillis() / 0.5D;

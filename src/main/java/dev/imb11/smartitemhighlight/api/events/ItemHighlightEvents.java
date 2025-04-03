@@ -8,13 +8,13 @@ import net.minecraft.world.level.Level;
 
 public interface ItemHighlightEvents {
     SIHEvent<HighlightItem> RENDER_HIGHLIGHT = new SIHEvent<>(
-            callbacks -> (drawContext, livingEntity, world, stack, x, y, seed, guiOffset) -> {
+            callbacks -> (drawContext, livingEntity, world, stack, x, y, seed, guiOffset, hasRenderedItem) -> {
                 for (HighlightItem callback : callbacks)
-                    callback.apply(drawContext, livingEntity, world, stack, x, y, seed, guiOffset);
+                    callback.apply(drawContext, livingEntity, world, stack, x, y, seed, guiOffset, hasRenderedItem);
             });
 
     @FunctionalInterface
     interface HighlightItem {
-        void apply(GuiGraphics drawContext, LivingEntity entity, Level world, ItemStack stack, int x, int y, int seed, int guiOffset);
+        void apply(GuiGraphics drawContext, LivingEntity entity, Level world, ItemStack stack, int x, int y, int seed, int guiOffset, boolean hasRenderedItem);
     }
 }

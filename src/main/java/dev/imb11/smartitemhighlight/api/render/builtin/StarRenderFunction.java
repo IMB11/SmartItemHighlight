@@ -26,7 +26,9 @@ public class StarRenderFunction implements RenderFunction {
     }
 
     @Override
-    public void render(HighlightCondition condition, ItemStack stack, int seed, GuiGraphics graphics, int x, int y, int z) {
+    public void render(HighlightCondition condition, ItemStack stack, int seed, GuiGraphics graphics, int x, int y, int z, boolean hasRenderedItem) {
+        if (!hasRenderedItem) return;
+
         Optional<JsonObject> renderOptions = condition.getRenderOptions();
 
         ResourceLocation texture = ResourceLocation.parse(JSONUtils.getOrDefault(renderOptions, "texture", "smartitemhighlight:textures/star.png"));
